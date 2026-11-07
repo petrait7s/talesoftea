@@ -408,3 +408,7 @@ footer .logochip img { height: 52px; width: auto; border-radius: 0; margin: 0; }
 .hero-dots button { width: 8px; height: 8px; border-radius: 99px; background: rgba(255, 255, 255, 0.55); transition: width 0.35s, background 0.35s; padding: 0; }
 .hero-dots button.on { width: 24px; background: var(--amber); }
 @media (prefers-reduced-motion: reduce) { .slide { transition: none; } .slide.on .hero-bg { animation: none; } }
+
+/* per-photo framing set inline: --fx (flip), --tx/--sc (desktop shift + zoom) */
+.hero-bg { scale: calc(var(--msc, 1) * var(--fx, 1)) var(--msc, 1); translate: 0 var(--ty, 0); }
+@media (min-width: 860px) { .hero-bg { translate: var(--tx, 0) 0; scale: calc(var(--sc, 1) * var(--fx, 1)) var(--sc, 1); } }
