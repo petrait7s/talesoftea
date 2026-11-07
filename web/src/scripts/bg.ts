@@ -5,7 +5,7 @@ if (cv) {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const small = innerWidth < 760;
   const canBlur = 'filter' in ctx;
-  const PAL: [string, string][] = [['#6fb04a', '#3c7f3d'], ['#9ed36a', '#5fa24a'], ['#bfe39a', '#7fbf63'], ['#f2a93b', '#c98022'], ['#b98a5a', '#7a4a28'], ['#4f9a58', '#2f6b3a']];
+  const PAL: [string, string][] = [['#8fd16a', '#4f9a4a'], ['#b9e394', '#6fb85a'], ['#e3b95f', '#b9852b'], ['#f2a93b', '#c98022'], ['#6fc088', '#2f8a52'], ['#d9efb4', '#8fc365']];
   let W = 0, H = 0, dpr = 1;
   const cache = new Map<string, HTMLCanvasElement>();
 
@@ -39,7 +39,7 @@ if (cv) {
     leaves = Array.from({ length: n }, (_, i) => {
       const z = Math.pow(Math.random(), 0.9);
       const bin = z < 0.28 ? 0 : z > 0.86 ? 2 : 1;
-      return { x: rnd(0, W), y: rnd(0, H), z, sz: 38 + z * z * (small ? 150 : 220), rz: rnd(0, 6.28), vrz: rnd(-0.35, 0.35), rx: rnd(0, 6.28), vrx: rnd(0.25, 0.9) * (Math.random() < 0.5 ? -1 : 1), vy: 7 + z * 26, sw: rnd(14, 36) * (0.4 + z), sp: rnd(0.25, 0.7), ph: rnd(0, 6.28), ci: i % PAL.length, bin, al: bin === 2 ? 0.3 : bin === 0 ? 0.34 : 0.5 };
+      return { x: rnd(0, W), y: rnd(0, H), z, sz: 38 + z * z * (small ? 150 : 220), rz: rnd(0, 6.28), vrz: rnd(-0.35, 0.35), rx: rnd(0, 6.28), vrx: rnd(0.25, 0.9) * (Math.random() < 0.5 ? -1 : 1), vy: 7 + z * 26, sw: rnd(14, 36) * (0.4 + z), sp: rnd(0.25, 0.7), ph: rnd(0, 6.28), ci: i % PAL.length, bin, al: bin === 2 ? 0.34 : bin === 0 ? 0.4 : 0.62 };
     }).sort((a, b) => a.z - b.z);
   }
   function resize() {

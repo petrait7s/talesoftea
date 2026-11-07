@@ -8,20 +8,20 @@ const faq = [
 ];
 ---
 <Base title="যোগাযোগ | Tales of Tea" active="contact">
+  <div class="zone"><div class="wrap"><div class="pagehead"><h1><T bn="যোগাযোগ" en="Contact" /></h1><p><T bn="যেকোনো প্রশ্নে লিখুন বা ফোন করুন।" en="Write or call us with any question." /></p></div></div></div>
   <div class="wrap">
-    <div class="pagehead"><h1><T bn="যোগাযোগ" en="Contact" /></h1><p><T bn="যেকোনো প্রশ্নে লিখুন বা ফোন করুন।" en="Write or call us with any question." /></p></div>
-    <section class="sec cols2" style="padding-top:20px">
-      <div>
+    <section class="sec cols2" style="padding-top:34px">
+      <div><div class="panel glass">
         <div class="ci"><i><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/></svg></i><div><b><T bn="ফোন" en="Phone" /></b><br />01XXX-XXXXXX</div></div>
         <div class="ci"><i><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg></i><div><b>Facebook</b><br />facebook.com/talesoftea</div></div>
-        <div class="ci"><i><svg viewBox="0 0 24 24"><path d="M12 21s7-6 7-11a7 7 0 10-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></i><div><b><T bn="ঠিকানা" en="Address" /></b><br /><T bn="আপনার ঠিকানা এখানে বসবে" en="Your address goes here" /></div></div>
+        <div class="ci"><i><svg viewBox="0 0 24 24"><path d="M12 21s7-6 7-11a7 7 0 10-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></i><div><b><T bn="ঠিকানা" en="Address" /></b><br /><T bn="আপনার ঠিকানা এখানে বসবে" en="Your address goes here" /></div></div></div>
         <form class="panel glass" id="cform" style="margin-top:14px">
           <label><T bn="নাম" en="Name" /></label><input required />
           <label><T bn="আপনার বার্তা" en="Your message" /></label><textarea required rows="4"></textarea>
           <button class="btn green" style="margin-top:12px"><T bn="পাঠান" en="Send" /></button>
         </form>
       </div>
-      <div class="faq"><h2 style="color:var(--green);margin:0 0 14px"><T bn="সাধারণ প্রশ্ন" en="Common questions" /></h2>
+      <div class="faq"><h2 class="h2d"><T bn="সাধারণ প্রশ্ন" en="Common questions" /></h2>
         {faq.map((f) => <details class="glass"><summary><T bn={f.q.bn} en={f.q.en} /></summary><p><T bn={f.a.bn} en={f.a.en} /></p></details>)}
       </div>
     </section>

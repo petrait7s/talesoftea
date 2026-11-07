@@ -2,10 +2,10 @@
 import Base from '../layouts/Base.astro';
 import T from '../components/T.astro';
 ---
-<Base title="অর্ডার | Tales of Tea" active="cart">
-  <div class="wrap"><div class="ok">
+<Base title="অর্ডার | Tales of Tea" active="cart" band={false}>
+  <div class="wrap" style="padding-top:90px"><div class="ok">
     <div class="tick">✓</div>
-    <h2 style="color:var(--green)"><T bn="ধন্যবাদ! অর্ডার পাওয়া গেছে" en="Thank you! Order received" /></h2>
+    <h2><T bn="ধন্যবাদ! অর্ডার পাওয়া গেছে" en="Thank you! Order received" /></h2>
     <p><T bn="আমরা শিগগির ফোন করে কনফার্ম করব।" en="We will call you shortly to confirm." /></p>
     <div class="oid"><T bn="অর্ডার নম্বর" en="Order no" />: <span id="oid">-</span></div>
     <div class="panel glass" id="det" style="max-width:460px;margin:0 auto 16px;text-align:left" hidden></div>

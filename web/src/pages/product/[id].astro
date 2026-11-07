@@ -11,7 +11,7 @@ const { t } = Astro.props;
 const rel = TEAS.filter((x) => x.id !== t.id).slice(0, 4);
 ---
 <Base title={`${t.n.en} | Tales of Tea`} active="shop" description={t.d.en}>
-  <div class="wrap" data-pdp={t.id}>
+  <div class="zone"><div class="wrap" data-pdp={t.id}>
     <div class="crumbs"><a href="/"><T bn="হোম" en="Home" /></a> / <a href="/shop/"><T bn="শপ" en="Shop" /></a> / <T bn={t.n.bn} en={t.n.en} /></div>
     <div class="pdp">
       <div class="hero-img glass"><TeaArt t={t} big /></div>
@@ -27,7 +27,9 @@ const rel = TEAS.filter((x) => x.id !== t.id).slice(0, 4);
         <div class="acts"><button class="btn green" type="button" id="addBtn"><T bn="কার্টে দিন" en="Add to cart" /></button><button class="btn amber" type="button" id="buyBtn"><T bn="এখনই কিনুন" en="Buy now" /></button></div>
       </div>
     </div>
-    <div class="tabbar"><button type="button" class="on" data-tab="d"><T bn="বিবরণ" en="Details" /></button><button type="button" data-tab="b"><T bn="বানানোর নিয়ম" en="How to brew" /></button><button type="button" data-tab="s"><T bn="ডেলিভারি" en="Delivery" /></button></div>
+  </div></div>
+  <div class="wrap"><div class="panel glass" style="margin-top:34px">
+    <div class="tabbar" style="margin-top:0"><button type="button" class="on" data-tab="d"><T bn="বিবরণ" en="Details" /></button><button type="button" data-tab="b"><T bn="বানানোর নিয়ম" en="How to brew" /></button><button type="button" data-tab="s"><T bn="ডেলিভারি" en="Delivery" /></button></div>
     <div class="tabpane on" data-pane="d"><p><T bn={t.d.bn} en={t.d.en} /></p><div class="meta">{t.notes.bn.map((n, i) => <span class="pill b"><T bn={n} en={t.notes.en[i]} /></span>)}</div></div>
     <div class="tabpane" data-pane="b"><ul>
       <li><T bn="পানির তাপমাত্রা" en="Water temperature" />: <b>{t.brew.t}</b></li>
@@ -38,7 +40,7 @@ const rel = TEAS.filter((x) => x.id !== t.id).slice(0, 4);
       <li><T bn="কনফার্মের সময় ফোনে ডেলিভারির সময় জানানো হবে।" en="We tell you the delivery time when we call to confirm." /></li>
       <li><T bn="ডেলিভারি চার্জ ৳60।" en="Delivery charge ৳60." /></li>
       <li><T bn="প্যাক খুলে চেক করে টাকা দিতে পারবেন (COD)।" en="Open and check the pack before paying (COD)." /></li></ul></div>
-  </div>
+  </div></div>
   <section class="sec"><div class="wrap"><h2><T bn="আরও চা" en="More teas" /></h2><div class="grid">{rel.map((x) => <TeaCard t={x} />)}</div></div></section>
   <div class="buybar glass"><span class="p" id="bbP">৳{price(t, 1)}</span><button class="btn green" type="button" id="addBtn2"><T bn="কার্টে দিন" en="Add to cart" /></button></div>
 </Base>

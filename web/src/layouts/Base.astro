@@ -2,7 +2,7 @@
 import '../styles/global.css';
 import T from '../components/T.astro';
 import { TEAS, WEIGHTS, DELIVERY } from '../data/teas';
-const { title = 'Tales of Tea', active = 'home', description = 'Hand-picked tea, ordered from home. Cash on delivery, bKash, Nagad.' } = Astro.props;
+const { title = 'Tales of Tea', active = 'home', band = true, description = 'Hand-picked tea, ordered from home. Cash on delivery, bKash, Nagad.' } = Astro.props;
 const data = { teas: TEAS, weights: WEIGHTS, delivery: DELIVERY, api: import.meta.env.PUBLIC_API_URL || '' };
 ---
 <!doctype html>
@@ -46,9 +46,17 @@ const data = { teas: TEAS, weights: WEIGHTS, delivery: DELIVERY, api: import.met
 
   <main class="fade"><slot /></main>
 
+  {band && (
+    <section class="goldband"><div class="wrap">
+      <h2><T bn="চা বেছে নিতে তৈরি?" en="Ready to pick your tea?" /></h2>
+      <p><T bn="অর্ডার দিন, আমরা ফোন করে কনফার্ম করব।" en="Place an order, we will call to confirm." /></p>
+      <div class="btns"><a class="btn forest" href="/shop/"><T bn="চা কিনুন" en="Shop teas" /></a><a class="btn outline-d" href="#">Facebook</a></div>
+    </div></section>
+  )}
+
   <footer>
     <div class="wrap">
-      <div><img src="/logo.png" alt="" width="108" height="64" style="height:64px;width:auto;border-radius:10px;margin-bottom:8px" /><br /><T bn="প্রতি কাপে একটা গল্প।" en="A story in every cup." /></div>
+      <div><span class="logochip"><img src="/logo.png" alt="Tales of Tea" width="87" height="52" /></span><br /><T bn="প্রতি কাপে একটা গল্প।" en="A story in every cup." /></div>
       <div><b><T bn="শপ" en="Shop" /></b><a href="/shop/"><T bn="সব চা" en="All teas" /></a><a href="/cart/"><T bn="কার্ট" en="Cart" /></a></div>
       <div><b><T bn="কোম্পানি" en="Company" /></b><a href="/story/"><T bn="আমাদের গল্প" en="Our Story" /></a><a href="/contact/"><T bn="যোগাযোগ" en="Contact" /></a></div>
       <div><b><T bn="যোগাযোগ" en="Contact" /></b><span>01XXX-XXXXXX</span><a href="#">Facebook Page</a><span><T bn="সকাল ৯টা - রাত ৯টা" en="9am - 9pm" /></span></div>

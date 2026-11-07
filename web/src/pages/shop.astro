@@ -6,9 +6,9 @@ import { TEAS, TYPE_LABEL } from '../data/teas';
 const types = ['all', 'black', 'green', 'herbal', 'blend'] as const;
 ---
 <Base title="শপ | Tales of Tea" active="shop">
+  <div class="zone"><div class="wrap"><div class="pagehead"><h1><T bn="আমাদের সব চা" en="All our teas" /></h1><p><T bn="ধরন বেছে নিন, তারপর ওজন।" en="Pick a type, then a weight." /></p></div></div></div>
   <div class="wrap">
-    <div class="pagehead"><h1><T bn="আমাদের সব চা" en="All our teas" /></h1><p><T bn="ধরন বেছে নিন, তারপর ওজন।" en="Pick a type, then a weight." /></p></div>
-    <section class="sec" style="padding-top:18px">
+    <section class="sec" style="padding-top:34px">
       <div class="filters">
         {types.map((x) => <button class={`fchip ${x === 'all' ? 'on' : ''}`} type="button" data-ty={x}>{x === 'all' ? <T bn="সব" en="All" /> : <T bn={TYPE_LABEL[x].bn} en={TYPE_LABEL[x].en} />}</button>)}
       </div>

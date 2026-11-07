@@ -2,18 +2,18 @@
 import Base from '../layouts/Base.astro';
 import T from '../components/T.astro';
 ---
-<Base title="কার্ট | Tales of Tea" active="cart">
+<Base title="কার্ট | Tales of Tea" active="cart" band={false}>
+  <div class="zone"><div class="wrap"><div class="pagehead"><h1><T bn="আপনার কার্ট" en="Your cart" /></h1></div></div></div>
   <div class="wrap">
-    <div class="pagehead"><h1><T bn="আপনার কার্ট" en="Your cart" /></h1></div>
 
     <div class="empty" id="empty" hidden>
-      <div class="em"><svg width="86" height="72" viewBox="0 0 120 100" fill="none"><path d="M16 30h78v10c0 24-17 40-39 40S16 64 16 40V30z" stroke="#2f6b3a" stroke-width="4"/><path d="M94 38c14-2 18 18 0 22" stroke="#2f6b3a" stroke-width="4" stroke-linecap="round"/><path d="M40 12c-5 6 5 9 0 15M58 8c-5 6 5 9 0 15M76 12c-5 6 5 9 0 15" stroke="#9ed36a" stroke-width="4" stroke-linecap="round"/></svg></div>
-      <h2 style="color:var(--green)"><T bn="কার্ট খালি" en="Your cart is empty" /></h2>
+      <div class="em"><svg width="86" height="72" viewBox="0 0 120 100" fill="none"><path d="M16 30h78v10c0 24-17 40-39 40S16 64 16 40V30z" stroke="#e3b95f" stroke-width="4"/><path d="M94 38c14-2 18 18 0 22" stroke="#e3b95f" stroke-width="4" stroke-linecap="round"/><path d="M40 12c-5 6 5 9 0 15M58 8c-5 6 5 9 0 15M76 12c-5 6 5 9 0 15" stroke="#9ed36a" stroke-width="4" stroke-linecap="round"/></svg></div>
+      <h2><T bn="কার্ট খালি" en="Your cart is empty" /></h2>
       <p><T bn="পছন্দের চা বেছে নিন।" en="Pick a tea you like." /></p><br />
       <a class="btn green" href="/shop/"><T bn="চা কিনুন" en="Shop teas" /></a>
     </div>
 
-    <section class="sec two" id="checkout" style="padding-top:18px" hidden>
+    <section class="sec two" id="checkout" style="padding-top:34px" hidden>
       <div class="panel glass"><h3><T bn="কার্ট" en="Cart" /></h3><div id="lines"></div><div id="sum"></div></div>
       <form class="panel glass" id="form" novalidate>
         <h3><T bn="আপনার তথ্য" en="Your details" /></h3>
