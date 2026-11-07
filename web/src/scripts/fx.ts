@@ -55,6 +55,13 @@ if (hero) {
     };
     const start = () => { clearInterval(timer); if (!reduce) timer = window.setInterval(() => { if (seen && !document.hidden) goReady(cur + 1); }, HOLD); };
     dots.forEach((d) => d.addEventListener('click', () => { goReady(Number(d.dataset.slide)); start(); }));
+    // swipe the hero left or right on touch screens
+    let sx = 0;
+    hero.addEventListener('touchstart', (e) => { sx = e.touches[0].clientX; }, { passive: true });
+    hero.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - sx;
+      if (Math.abs(dx) > 50) { goReady(cur + (dx < 0 ? 1 : -1)); start(); }
+    });
     new IntersectionObserver((e) => { seen = e[0].isIntersecting; }).observe(hero);
     start();
   }

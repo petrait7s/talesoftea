@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import T from '../components/T.astro';
 ---
-<Base title="কার্ট | Tales of Tea" active="cart" band={false}>
+<Base title="কার্ট | Tales of Tea" active="cart" band={false} cbar={false}>
   <div class="zone"><div class="wrap"><div class="pagehead"><h1><T bn="আপনার কার্ট" en="Your cart" /></h1></div></div></div>
   <div class="wrap">
 
@@ -11,44 +11,66 @@ import T from '../components/T.astro';
       <h2><T bn="কার্ট খালি" en="Your cart is empty" /></h2>
       <p><T bn="পছন্দের চা বেছে নিন।" en="Pick a tea you like." /></p><br />
       <a class="btn green" href="/shop/"><T bn="চা কিনুন" en="Shop teas" /></a>
+      <p style="margin-top:16px"><a class="btn line" id="lastv" href="/shop/" hidden></a></p>
     </div>
 
-    <section class="sec two" id="checkout" style="padding-top:34px" hidden>
+    <section class="sec two" id="checkout" style="padding-top:32px" hidden>
       <div class="panel glass"><h3><T bn="কার্ট" en="Cart" /></h3><div id="lines"></div><div id="sum"></div></div>
       <form class="panel glass" id="form" novalidate>
         <h3><T bn="আপনার তথ্য" en="Your details" /></h3>
-        <label><T bn="নাম" en="Name" /></label><input id="fn" required autocomplete="name" />
-        <label><T bn="ফোন (01XXXXXXXXX)" en="Phone (01XXXXXXXXX)" /></label><input id="fp" required inputmode="tel" placeholder="01712345678" autocomplete="tel" />
-        <label><T bn="পূর্ণ ঠিকানা" en="Full address" /></label><textarea id="fa" required rows="3" autocomplete="street-address"></textarea>
+        <label for="fn"><T bn="নাম" en="Name" /></label>
+        <input id="fn" required autocomplete="name" enterkeyhint="next" />
+        <p class="err" id="e-fn" hidden><T bn="নাম লিখুন" en="Enter your name" /></p>
+        <label for="fp"><T bn="ফোন (01XXXXXXXXX)" en="Phone (01XXXXXXXXX)" /></label>
+        <div class="field" id="w-fp"><input id="fp" required inputmode="tel" placeholder="01712345678" autocomplete="tel" enterkeyhint="next" /><span class="tk"></span></div>
+        <p class="err" id="e-fp" hidden><T bn="ফোন নম্বর ঠিক নয়। 01 দিয়ে শুরু, মোট 11 সংখ্যা।" en="Phone number is not valid. Start with 01, 11 digits." /></p>
+        <label for="fa"><T bn="পূর্ণ ঠিকানা" en="Full address" /></label>
+        <textarea id="fa" required rows="3" autocomplete="street-address"></textarea>
+        <p class="err" id="e-fa" hidden><T bn="ঠিকানা লিখুন" en="Enter your address" /></p>
         <label><T bn="পেমেন্ট" en="Payment" /></label>
         <div class="pay" id="pay"><button type="button" data-m="cod" class="on">COD</button><button type="button" data-m="bkash">bKash</button><button type="button" data-m="nagad">Nagad</button></div>
         <div id="trxBox" hidden>
-          <div class="hint"><T bn="এই নম্বরে টাকা পাঠান:" en="Send money to:" /> <b>01XXX-XXXXXX</b> (<T bn="নমুনা" en="sample" />) · <b id="payAmt"></b></div>
-          <label><T bn="যে নম্বর থেকে পাঠিয়েছেন" en="Sender number" /></label><input id="fs" inputmode="tel" />
-          <label>TrxID</label><input id="ft" placeholder="8N7A6D5EE" autocapitalize="characters" />
+          <div class="hint">
+            <T bn="এই নম্বরে টাকা পাঠান:" en="Send money to:" /> <b id="payNo">01XXX-XXXXXX</b> (<T bn="নমুনা" en="sample" />) · <b id="payAmt"></b>
+            <div class="row2"><button type="button" class="btn line sm" id="copyNo"><T bn="নম্বর কপি" en="Copy number" /></button></div>
+          </div>
+          <label for="fs"><T bn="যে নম্বর থেকে পাঠিয়েছেন" en="Sender number" /></label>
+          <div class="field" id="w-fs"><input id="fs" inputmode="tel" autocomplete="tel" enterkeyhint="next" /><span class="tk"></span></div>
+          <p class="err" id="e-fs" hidden><T bn="যে নম্বর থেকে টাকা পাঠিয়েছেন সেটি দিন" en="Enter the number you paid from" /></p>
+          <label for="ft">TrxID</label>
+          <input id="ft" placeholder="8N7A6D5EE" autocapitalize="characters" autocomplete="off" enterkeyhint="done" />
+          <p class="err" id="e-ft" hidden><T bn="TrxID দিন (8 থেকে 12 অক্ষর)" en="Enter the TrxID (8 to 12 characters)" /></p>
+          <div class="row2"><button type="button" class="btn line sm" id="pasteTrx"><T bn="TrxID পেস্ট" en="Paste TrxID" /></button></div>
         </div>
         <input class="hp" id="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
-        <button class="btn green block" id="submit" style="margin-top:16px"><T bn="অর্ডার কনফার্ম" en="Confirm order" /> · <span id="subAmt"></span></button>
+        <button class="btn green block submit-inline" id="submit"><T bn="অর্ডার কনফার্ম" en="Confirm order" /> · <span id="subAmt"></span></button>
       </form>
     </section>
+    <div class="sbar glass" id="sbar" hidden>
+        <div class="t"><small><T bn="মোট" en="Total" /></small><span id="sbT"></span></div>
+        <button class="btn green" type="submit" form="form" id="submit2"><T bn="অর্ডার কনফার্ম" en="Confirm order" /></button>
+    </div>
   </div>
 </Base>
 <script>
   import { data, getCart, setCart, totals, price, tea, tk, toast, normalizePhone } from '../scripts/app';
   const $ = <T extends HTMLElement>(s: string) => document.querySelector(s) as T;
+  const mobile = () => matchMedia('(max-width: 859px)').matches;
   let method = 'cod';
 
   function render() {
     const cart = getCart();
     $('#empty').hidden = cart.length > 0;
     $('#checkout').hidden = cart.length === 0;
-    if (!cart.length) return;
+    $('#sbar').hidden = cart.length === 0;
+    document.body.classList.toggle('has-cbar', cart.length > 0);
+    if (!cart.length) { lastViewed(); return; }
     $('#lines').innerHTML = cart.map((c, i) => {
       const t = tea(c.id), w = data.weights[c.wi];
       return `<div class="cl"><div class="dot" style="--c1:${t.c[0]};--c2:${t.c[1]}"></div>
         <div class="nm"><a href="/product/${t.id}/" style="text-decoration:none"><span class="bn">${t.n.bn}</span><span class="en">${t.n.en}</span></a>
         <small>${w.l} · ${tk(price(c.id, c.wi))}</small><button class="x" type="button" data-rm="${i}"><span class="bn">মুছুন</span><span class="en">Remove</span></button></div>
-        <div class="qty"><button type="button" data-d="-1" data-i="${i}">-</button><b>${c.q}</b><button type="button" data-d="1" data-i="${i}">+</button></div></div>`;
+        <div class="qty"><button type="button" data-d="-1" data-i="${i}" aria-label="-">-</button><b>${c.q}</b><button type="button" data-d="1" data-i="${i}" aria-label="+">+</button></div></div>`;
     }).join('');
     const tt = totals(cart);
     $('#sum').innerHTML = `<div class="row"><span><span class="bn">সাব-টোটাল</span><span class="en">Subtotal</span></span><span>${tk(tt.sub)}</span></div>
@@ -56,6 +78,7 @@ import T from '../components/T.astro';
       <div class="row total"><span><span class="bn">মোট</span><span class="en">Total</span></span><span>${tk(tt.tot)}</span></div>`;
     $('#subAmt').textContent = tk(tt.tot);
     $('#payAmt').textContent = tk(tt.tot);
+    $('#sbT').textContent = tk(tt.tot);
     document.querySelectorAll<HTMLElement>('[data-d]').forEach((b) => b.addEventListener('click', () => {
       const c = getCart(); const it = c[Number(b.dataset.i)]; it.q += Number(b.dataset.d);
       if (it.q < 1) c.splice(Number(b.dataset.i), 1);
@@ -64,6 +87,41 @@ import T from '../components/T.astro';
     document.querySelectorAll<HTMLElement>('[data-rm]').forEach((b) => b.addEventListener('click', () => {
       const c = getCart(); c.splice(Number(b.dataset.rm), 1); setCart(c); render();
     }));
+    swipeToDelete();
+  }
+
+  /** Swipe a cart row to the left to remove it. */
+  function swipeToDelete() {
+    document.querySelectorAll<HTMLElement>('.cl').forEach((row, i) => {
+      let x0 = 0, dx = 0, on = false;
+      row.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; dx = 0; on = true; row.style.transition = 'none'; }, { passive: true });
+      row.addEventListener('touchmove', (e) => {
+        if (!on) return;
+        dx = Math.min(0, e.touches[0].clientX - x0);
+        row.style.transform = `translateX(${dx}px)`;
+        row.style.opacity = String(1 - Math.min(1, -dx / 240));
+      }, { passive: true });
+      row.addEventListener('touchend', () => {
+        on = false;
+        row.style.transition = 'transform 0.25s var(--ease), opacity 0.25s';
+        if (dx < -90) {
+          row.style.transform = 'translateX(-110%)'; row.style.opacity = '0';
+          setTimeout(() => { const c = getCart(); c.splice(i, 1); setCart(c); render(); }, 230);
+        } else { row.style.transform = ''; row.style.opacity = ''; }
+      });
+    });
+  }
+
+  /** Empty cart: offer the tea the person looked at last. */
+  function lastViewed() {
+    let id = 0;
+    try { id = Number(localStorage.getItem('tot_last_view')); } catch {}
+    const t = data.teas.find((x) => x.id === id);
+    const a = $<HTMLAnchorElement>('#lastv');
+    if (!t) { a.hidden = true; return; }
+    a.href = `/product/${t.id}/`;
+    a.innerHTML = `<span class="bn">আপনি দেখেছিলেন: ${t.n.bn}</span><span class="en">You looked at: ${t.n.en}</span>`;
+    a.hidden = false;
   }
 
   document.querySelectorAll<HTMLElement>('#pay button').forEach((b) => b.addEventListener('click', () => {
@@ -72,8 +130,37 @@ import T from '../components/T.astro';
     $('#trxBox').hidden = method === 'cod';
   }));
 
-  const mark = (el: HTMLElement, bad: boolean) => el.classList.toggle('bad', bad);
-  document.querySelectorAll<HTMLElement>('#form input, #form textarea').forEach((el) => el.addEventListener('input', () => el.classList.remove('bad')));
+  // ---- inline validation ----
+  const fields = ['fn', 'fp', 'fa', 'fs', 'ft'];
+  const showErr = (id: string, bad: boolean) => { $('#e-' + id).hidden = !bad; $('#' + id).classList.toggle('bad', bad); };
+  fields.forEach((id) => $('#' + id).addEventListener('input', () => showErr(id, false)));
+
+  // Phone fields: digits only (plus a leading +), capped length, green tick when valid.
+  const phoneField = (id: string) => {
+    const el = $<HTMLInputElement>('#' + id), wrap = $('#w-' + id);
+    el.addEventListener('input', () => {
+      let v = el.value.replace(/[^\d+]/g, '').replace(/(?!^)\+/g, '');
+      const intl = v.startsWith('+880') || v.startsWith('880');
+      v = v.slice(0, intl ? (v.startsWith('+') ? 14 : 13) : 11);
+      if (v !== el.value) el.value = v;
+      wrap.classList.toggle('valid', !!normalizePhone(v));
+    });
+  };
+  phoneField('fp'); phoneField('fs');
+
+  $('#copyNo').addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText($('#payNo').textContent!.replace(/[\s-]/g, '')); toast('copied'); } catch { toast('copy_fail'); }
+  });
+  $('#pasteTrx').addEventListener('click', async () => {
+    try {
+      const t = (await navigator.clipboard.readText()).replace(/[^A-Za-z0-9]/g, '').toUpperCase().slice(0, 12);
+      $<HTMLInputElement>('#ft').value = t; showErr('ft', false);
+    } catch { toast('copy_fail'); }
+  });
+  // keep the focused field clear of the phone keyboard
+  document.querySelectorAll<HTMLElement>('#form input, #form textarea').forEach((el) => el.addEventListener('focus', () => {
+    if (mobile()) setTimeout(() => el.scrollIntoView({ block: 'center', behavior: 'smooth' }), 320);
+  }));
 
   $('#form').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -87,12 +174,14 @@ import T from '../components/T.astro';
     const address = $<HTMLTextAreaElement>('#fa').value.trim();
     const sender = normalizePhone($<HTMLInputElement>('#fs').value);
     const trx = $<HTMLInputElement>('#ft').value.trim().toUpperCase();
-    mark($('#fn'), !name); mark($('#fp'), !phone); mark($('#fa'), !address);
-    if (!name || !address) return;
-    if (!phone) { toast('bad_phone'); $('#fp').focus(); return; }
     const paid = method !== 'cod';
-    mark($('#fs'), paid && !sender); mark($('#ft'), paid && !/^[A-Z0-9]{8,12}$/.test(trx));
-    if (paid && (!sender || !/^[A-Z0-9]{8,12}$/.test(trx))) { toast('bad_trx'); return; }
+    const bad: Record<string, boolean> = {
+      fn: !name, fp: !phone, fa: !address,
+      fs: paid && !sender, ft: paid && !/^[A-Z0-9]{8,12}$/.test(trx),
+    };
+    fields.forEach((id) => showErr(id, bad[id]));
+    const first = fields.find((id) => bad[id]);
+    if (first) { const el = $(`#${first}`); el.scrollIntoView({ block: 'center', behavior: 'smooth' }); el.focus({ preventScroll: true }); return; }
 
     // One key per cart, so a double tap or retry creates one order (server enforces it).
     let key = sessionStorage.getItem('tot_idem');
@@ -106,8 +195,8 @@ import T from '../components/T.astro';
     };
     const tt = totals(cart);
     const summary = cart.map((c) => ({ id: c.id, l: data.weights[c.wi].l, q: c.q }));
-    const btn = $<HTMLButtonElement>('#submit');
-    btn.disabled = true;
+    const btns = [$<HTMLButtonElement>('#submit'), $<HTMLButtonElement>('#submit2')];
+    btns.forEach((b) => (b.disabled = true));
     try {
       let id = 'TOT-' + String(Date.now()).slice(-6);
       if (data.api) {
@@ -122,7 +211,7 @@ import T from '../components/T.astro';
       setCart([]);
       location.href = '/success/?id=' + encodeURIComponent(id);
     } catch {
-      btn.disabled = false;
+      btns.forEach((b) => (b.disabled = false));
       toast('net');
     }
   });

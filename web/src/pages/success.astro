@@ -9,12 +9,16 @@ import T from '../components/T.astro';
     <p><T bn="আমরা শিগগির ফোন করে কনফার্ম করব।" en="We will call you shortly to confirm." /></p>
     <div class="oid"><T bn="অর্ডার নম্বর" en="Order no" />: <span id="oid">-</span></div>
     <div class="panel glass" id="det" style="max-width:460px;margin:0 auto 16px;text-align:left" hidden></div>
+    <div class="share">
+      <a class="btn line sm" id="wa" href="https://wa.me/" target="_blank" rel="noopener"><T bn="WhatsApp-এ শেয়ার" en="Share on WhatsApp" /></a>
+      <button class="btn line sm" type="button" id="cp"><T bn="অর্ডার নম্বর কপি" en="Copy order number" /></button>
+    </div>
     <p class="note" id="demo" hidden><T bn="(ডেমো মোড: কোনো আসল অর্ডার যায়নি)" en="(Demo mode: no real order was sent)" /></p><br />
     <a class="btn green" href="/"><T bn="হোমে যান" en="Go home" /></a>
   </div></div>
 </Base>
 <script>
-  import { data, tea } from '../scripts/app';
+  import { data, tea, toast, lang } from '../scripts/app';
   const id = new URLSearchParams(location.search).get('id') || '-';
   document.getElementById('oid')!.textContent = id;
   try {
@@ -28,4 +32,18 @@ import T from '../components/T.astro';
     }
   } catch {}
   void data;
+
+  // Share and copy
+  const text = (l: 'bn' | 'en') => (l === 'bn' ? `আমার Tales of Tea অর্ডার: ${id}` : `My Tales of Tea order: ${id}`);
+  document.getElementById('wa')!.addEventListener('click', (e) => {
+    (e.currentTarget as HTMLAnchorElement).href = 'https://wa.me/?text=' + encodeURIComponent(text(lang()));
+  });
+  document.getElementById('cp')!.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(id); toast('copied'); } catch { toast('copy_fail'); }
+  });
+
+  // The tab itself says the order went through
+  document.title = '✓ ' + id + ' | Tales of Tea';
+  const ico = document.querySelector<HTMLLinkElement>('link[rel="icon"]');
+  if (ico) ico.href = 'data:image/svg+xml,' + encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='30' fill='#2f8f4e'/><path d='M18 33l9 9 19-20' fill='none' stroke='white' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/></svg>");
 </script>

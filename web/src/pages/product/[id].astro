@@ -12,7 +12,7 @@ const { t } = Astro.props;
 const mins = parseInt(String(t.brew.m), 10) || 3;
 const rel = TEAS.filter((x) => x.id !== t.id).slice(0, 4);
 ---
-<Base title={`${t.n.en} | Tales of Tea`} active="shop" description={t.d.en}>
+<Base title={`${t.n.en} | Tales of Tea`} active="shop" description={t.d.en} cbar={false}>
   <div class="zone"><div class="wrap" data-pdp={t.id}>
     <div class="crumbs"><a href="/"><T bn="হোম" en="Home" /></a> / <a href="/shop/"><T bn="শপ" en="Shop" /></a> / <T bn={t.n.bn} en={t.n.en} /></div>
     <div class="pdp">
@@ -22,9 +22,15 @@ const rel = TEAS.filter((x) => x.id !== t.id).slice(0, 4);
         <div class="grade"><T bn={t.g.bn} en={t.g.en} /></div>
         <div class="pr" id="pdpPrice">৳{price(t, 1)}</div>
         <div class="meta"><span class="pill"><T bn={TYPE_LABEL[t.type].bn} en={TYPE_LABEL[t.type].en} /></span>{t.notes.bn.slice(0, 2).map((n, i) => <span class="pill b"><T bn={n} en={t.notes.en[i]} /></span>)}</div>
-        <p style="margin-bottom:14px"><T bn={t.d.bn} en={t.d.en} /></p>
+        <div class="facts">
+          <span class="fact"><svg viewBox="0 0 24 24"><path d="M14 14.8V5a2 2 0 10-4 0v9.8a4 4 0 104 0z" /></svg>{t.brew.t}</span>
+          <span class="fact"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8" /><path d="M12 9v4l2.5 2M9 2h6" /></svg>{t.brew.m} <T bn="মিনিট" en="min" /></span>
+          <span class="fact"><svg viewBox="0 0 24 24"><ellipse cx="8" cy="8" rx="5" ry="6" /><path d="M11 13l9 9" /></svg>1 <T bn="চামচ" en="tsp" /> · 2g</span>
+          <span class="fact"><i class="sw" style={`background:${t.liquor}`}></i><T bn="লিকারের রং" en="Liquor colour" /></span>
+        </div>
+        <p style="margin-bottom:16px"><T bn={t.d.bn} en={t.d.en} /></p>
         <b><T bn="ওজন বাছুন" en="Choose weight" /></b>
-        <div class="weights" id="wts">{WEIGHTS.map((w, i) => <button type="button" data-w={i} class={i === 1 ? 'on' : ''}><b>{w.l}</b><small>৳{price(t, i)}</small></button>)}</div>
+        <div class="weights" id="wts">{WEIGHTS.map((w, i) => <button type="button" data-w={i} class={i === 1 ? 'on' : ''}><b>{w.l}</b><small>৳{price(t, i)}</small><span class="per">৳{Math.round(price(t, i) / (w.g / 100))}/100g</span></button>)}</div>
         <div class="qrow"><b><T bn="পরিমাণ" en="Quantity" /></b><div class="qty"><button type="button" id="qm" aria-label="-">-</button><b id="qv">1</b><button type="button" id="qp" aria-label="+">+</button></div></div>
         <div class="acts"><button class="btn green" type="button" id="addBtn"><T bn="কার্টে দিন" en="Add to cart" /></button><button class="btn amber" type="button" id="buyBtn"><T bn="এখনই কিনুন" en="Buy now" /></button></div>
         <div class="timer glass" id="timer" data-min={mins} data-s="idle">
@@ -46,7 +52,7 @@ const rel = TEAS.filter((x) => x.id !== t.id).slice(0, 4);
     <div class="tabpane on" data-pane="d"><p><T bn={t.d.bn} en={t.d.en} /></p><div class="meta">{t.notes.bn.map((n, i) => <span class="pill b"><T bn={n} en={t.notes.en[i]} /></span>)}</div></div>
     <div class="tabpane" data-pane="b"><ul>
       <li><T bn="পানির তাপমাত্রা" en="Water temperature" />: <b>{t.brew.t}</b></li>
-      <li><T bn="প্রতি কাপে ১ চামচ (২ গ্রাম) পাতা" en="1 tsp (2g) of leaf per cup" /></li>
+      <li><T bn="প্রতি কাপে 1 চামচ (2 গ্রাম) পাতা" en="1 tsp (2g) of leaf per cup" /></li>
       <li><b>{t.brew.m}</b> <T bn="মিনিট ভিজিয়ে রাখুন" en="minutes steep" /></li>
       <li><T bn="ছেঁকে পরিবেশন করুন" en="Strain and serve" /></li></ul></div>
     <div class="tabpane" data-pane="s"><ul>
@@ -60,6 +66,7 @@ const rel = TEAS.filter((x) => x.id !== t.id).slice(0, 4);
 <script>
   import { addToCart, price, tk, toast } from '../../scripts/app';
   const id = Number((document.querySelector('[data-pdp]') as HTMLElement).dataset.pdp);
+  try { localStorage.setItem('tot_last_view', String(id)); } catch {}
   let wi = 1, q = 1;
   const upd = () => {
     const p = tk(price(id, wi) * q);

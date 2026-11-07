@@ -16,6 +16,10 @@ const types = ['all', 'black', 'green', 'herbal', 'blend'] as const;
         <label style="margin:0;display:flex;gap:8px;align-items:center"><T bn="সাজান" en="Sort" />
           <select id="sortSel"><option value="def">Default</option><option value="lo">৳ ↑</option><option value="hi">৳ ↓</option></select></label></div>
       <div class="grid" id="grid">{TEAS.map((t) => <TeaCard t={t} />)}</div>
+      <div class="nf" id="nf" hidden>
+        <p><T bn="এই ধরনের চা এখন নেই।" en="No tea of this type right now." /></p><br />
+        <button class="btn line" type="button" id="nfAll"><T bn="সব চা দেখুন" en="Show all teas" /></button>
+      </div>
     </section>
   </div>
 </Base>
@@ -31,6 +35,7 @@ const types = ['all', 'black', 'green', 'herbal', 'blend'] as const;
     let n = 0;
     list.forEach((c) => { const show = ty === 'all' || c.dataset.type === ty; c.style.display = show ? '' : 'none'; if (show) n++; grid.appendChild(c); });
     document.getElementById('count')!.textContent = String(n);
+    document.getElementById('nf')!.hidden = n > 0;
   };
   document.querySelectorAll<HTMLElement>('[data-ty]').forEach((b) => b.addEventListener('click', () => {
     ty = b.dataset.ty!;
@@ -38,4 +43,5 @@ const types = ['all', 'black', 'green', 'herbal', 'blend'] as const;
     apply();
   }));
   document.getElementById('sortSel')!.addEventListener('change', apply);
+  document.getElementById('nfAll')!.addEventListener('click', () => document.querySelector<HTMLElement>('[data-ty="all"]')!.click());
 </script>

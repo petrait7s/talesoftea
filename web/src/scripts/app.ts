@@ -36,6 +36,7 @@ export function addToCart(id: number, wi: number, q: number, from?: HTMLElement)
   setCart(c);
   toast('added');
   if (from) fly(from, tea(id).c);
+  navigator.vibrate?.(10);
 }
 /** A small tea pouch flies from the button to the cart icon. */
 export function fly(from: HTMLElement, c: [string, string]) {
@@ -67,12 +68,19 @@ export function badge() {
     b.textContent = String(n);
     b.style.display = n ? 'grid' : 'none';
   });
+  const bar = document.getElementById('cbar');
+  if (bar) {
+    bar.hidden = n === 0;
+    document.body.classList.toggle('has-cbar', n > 0);
+    document.getElementById('cbN')!.textContent = String(n);
+    document.getElementById('cbT')!.textContent = tk(totals().tot);
+  }
 }
 const MSG: Record<string, { bn: string; en: string }> = {
   added: { bn: 'কার্টে দেওয়া হয়েছে', en: 'Added to cart' },
   sent: { bn: 'বার্তা পাঠানো হয়েছে (ডেমো)', en: 'Message sent (demo)' },
-  bad_phone: { bn: 'ফোন নম্বর ঠিক নয় (01XXXXXXXXX)', en: 'Phone number is not valid (01XXXXXXXXX)' },
-  bad_trx: { bn: 'TrxID ও সেন্ডার নম্বর দিন', en: 'Enter TrxID and sender number' },
+  copied: { bn: 'কপি হয়েছে', en: 'Copied' },
+  copy_fail: { bn: 'কপি/পেস্ট হলো না, নিজে করুন', en: 'Could not copy or paste, please do it by hand' },
   tea_ready: { bn: 'চা তৈরি! এবার পরিবেশন করুন', en: 'Your tea is ready!' },
   net: { bn: 'অর্ডার যায়নি, আবার চেষ্টা করুন', en: 'Order failed, please try again' },
 };
@@ -104,6 +112,9 @@ document.addEventListener('click', (e) => {
   if (b) { e.preventDefault(); addToCart(Number(b.dataset.quick), 1, 1, b); }
 });
 badge();
+const off = document.getElementById('offline');
+const net = () => { if (off) off.hidden = navigator.onLine; };
+addEventListener('online', net); addEventListener('offline', net); net();
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
   navigator.serviceWorker.register('/sw.js').catch(() => {});
 }

@@ -1,8 +1,14 @@
 ---
+import '@fontsource/montserrat/latin-400.css';
+import '@fontsource/montserrat/latin-500.css';
+import '@fontsource/montserrat/latin-600.css';
+import '@fontsource/montserrat/latin-700.css';
+import '@fontsource/tiro-bangla/bengali-400.css';
+import '@fontsource/tiro-bangla/latin-400.css';
 import '../styles/global.css';
 import T from '../components/T.astro';
 import { TEAS, WEIGHTS, DELIVERY } from '../data/teas';
-const { title = 'Tales of Tea', active = 'home', band = true, description = 'Hand-picked tea, ordered from home. Cash on delivery, bKash, Nagad.' } = Astro.props;
+const { title = 'Tales of Tea', active = 'home', band = true, cbar = true, description = 'Tea, ordered from home. Cash on delivery, bKash, Nagad.' } = Astro.props;
 const data = { teas: TEAS, weights: WEIGHTS, delivery: DELIVERY, api: import.meta.env.PUBLIC_API_URL || '' };
 ---
 <!doctype html>
@@ -19,9 +25,6 @@ const data = { teas: TEAS, weights: WEIGHTS, delivery: DELIVERY, api: import.met
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Tiro+Bangla&display=swap" rel="stylesheet" />
   <script is:inline>
     try { document.documentElement.lang = localStorage.getItem('tot_lang') || 'bn'; } catch (e) {}
   </script>
@@ -43,7 +46,7 @@ const data = { teas: TEAS, weights: WEIGHTS, delivery: DELIVERY, api: import.met
     </div>
   </header>
 
-  <main class="fade"><slot /></main>
+  <main><slot /></main>
 
   {band && (
     <section class="goldband"><div class="wrap">
@@ -58,7 +61,7 @@ const data = { teas: TEAS, weights: WEIGHTS, delivery: DELIVERY, api: import.met
       <div><span class="logochip"><img src="/logo.png" alt="Tales of Tea" width="87" height="52" /></span><br /><T bn="প্রতি কাপে একটা গল্প।" en="A story in every cup." /></div>
       <div><b><T bn="শপ" en="Shop" /></b><a href="/shop/"><T bn="সব চা" en="All teas" /></a><a href="/cart/"><T bn="কার্ট" en="Cart" /></a></div>
       <div><b><T bn="কোম্পানি" en="Company" /></b><a href="/story/"><T bn="আমাদের গল্প" en="Our Story" /></a><a href="/contact/"><T bn="যোগাযোগ" en="Contact" /></a></div>
-      <div><b><T bn="যোগাযোগ" en="Contact" /></b><span>01XXX-XXXXXX</span><a href="#">Facebook Page</a><span><T bn="সকাল ৯টা - রাত ৯টা" en="9am - 9pm" /></span></div>
+      <div><b><T bn="যোগাযোগ" en="Contact" /></b><span>01XXX-XXXXXX</span><a href="#">Facebook Page</a><span><T bn="সকাল 9টা - রাত 9টা" en="9am - 9pm" /></span></div>
     </div>
   </footer>
 
@@ -69,6 +72,13 @@ const data = { teas: TEAS, weights: WEIGHTS, delivery: DELIVERY, api: import.met
     <a href="/cart/" class={active === 'cart' ? 'on' : ''}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 4h3l2 11h10l2-8H7"/><circle cx="9" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/></svg><span><T bn="কার্ট" en="Cart" /></span><span class="badge" data-badge>0</span></a>
   </nav>
 
+  {cbar && (
+    <a class="cbar glass" id="cbar" href="/cart/" hidden>
+      <span><b id="cbN">0</b> <T bn="আইটেম" en="items" /> · <b id="cbT">0</b></span>
+      <span class="go"><T bn="অর্ডার" en="Checkout" /></span>
+    </a>
+  )}
+  <div class="offline" id="offline" hidden><T bn="ইন্টারনেট নেই। কার্ট ঠিক আছে, অর্ডার দিতে নেট লাগবে।" en="You are offline. Your cart is safe; you need internet to order." /></div>
   <div class="toast" id="toast" role="status"></div>
   <script type="application/json" id="tot-data" set:html={JSON.stringify(data)} />
   <script>

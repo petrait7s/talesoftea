@@ -1,0 +1,14 @@
+---
+import Base from '../layouts/Base.astro';
+import T from '../components/T.astro';
+---
+<Base title="404 | Tales of Tea" active="shop" band={false}>
+  <div class="wrap" style="padding-top:96px">
+    <div class="empty">
+      <div class="em"><svg width="110" height="92" viewBox="0 0 120 100" fill="none"><path d="M16 30h78v10c0 24-17 40-39 40S16 64 16 40V30z" stroke="#e3b95f" stroke-width="4"/><path d="M94 38c14-2 18 18 0 22" stroke="#e3b95f" stroke-width="4" stroke-linecap="round"/><path d="M40 12c-5 6 5 9 0 15M58 8c-5 6 5 9 0 15M76 12c-5 6 5 9 0 15" stroke="#9ed36a" stroke-width="4" stroke-linecap="round"/></svg></div>
+      <h2><T bn="এই পাতাটা পাওয়া গেল না" en="We could not find this page" /></h2>
+      <p><T bn="লিংকটা ভুল হতে পারে। চলুন, চা দেখি।" en="The link may be wrong. Let us look at some tea." /></p><br />
+      <a class="btn green" href="/shop/"><T bn="শপে ফিরুন" en="Back to the shop" /></a>
+    </div>
+  </div>
+</Base>
