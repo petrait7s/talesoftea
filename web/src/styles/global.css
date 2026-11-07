@@ -341,14 +341,17 @@ footer .logochip img { height: 52px; width: auto; border-radius: 0; margin: 0; }
 }
 @media (prefers-reduced-motion: reduce) { .hero-bg { animation: none; } }
 
-.slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.9s ease; }
-.slide.on { opacity: 1; }
-.slide.on .hero-bg { animation: kb2 6s ease-out forwards; }
-@keyframes kb2 { from { transform: scale(1.03); } to { transform: scale(1.13) translate3d(-1.2%, -0.8%, 0); } }
+/* Slides stack: the new one fades in ON TOP of the old one (no dark dip), and the old one keeps its zoom
+   running while it is covered (no snap back). */
+.slide { position: absolute; inset: 0; opacity: 0; z-index: 0; }
+.slide.out { opacity: 1; z-index: 1; }
+.slide.on { opacity: 1; z-index: 2; transition: opacity 1.8s ease; }
+.slide.on .hero-bg, .slide.out .hero-bg { animation: kb2 7.5s linear forwards; }
+@keyframes kb2 { from { transform: scale(1.03); } to { transform: scale(1.12) translate3d(-1%, -0.7%, 0); } }
 .hero-dots { position: absolute; z-index: 4; right: 22px; bottom: 20px; display: flex; gap: 7px; padding: 8px 12px; border-radius: 99px; background: rgba(8, 28, 16, 0.5); border: 1px solid rgba(255, 255, 255, 0.18); }
 .hero-dots button { width: 8px; height: 8px; border-radius: 99px; background: rgba(255, 255, 255, 0.55); transition: width 0.35s, background 0.35s; padding: 0; }
 .hero-dots button.on { width: 24px; background: var(--amber); }
-@media (prefers-reduced-motion: reduce) { .slide { transition: none; } .slide.on .hero-bg { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .slide.on { transition: none; } .slide.on .hero-bg, .slide.out .hero-bg { animation: none; } }
 
 /* per-photo framing set inline: --fx (flip), --tx/--sc (desktop shift + zoom) */
 .hero-bg { scale: calc(var(--msc, 1) * var(--fx, 1)) var(--msc, 1); translate: 0 var(--ty, 0); }

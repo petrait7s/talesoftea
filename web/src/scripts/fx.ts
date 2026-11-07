@@ -33,14 +33,28 @@ if (hero) {
   const slides = [...hero.querySelectorAll<HTMLElement>('.slide')];
   const dots = [...hero.querySelectorAll<HTMLElement>('[data-slide]')];
   if (slides.length > 1) {
-    let cur = 0, timer = 0, seen = true;
+    const HOLD = 4000, FADE = 1900;
+    let cur = 0, timer = 0, seen = true, busy = false, outTimer = 0;
     const go = (n: number) => {
-      slides[cur].classList.remove('on'); dots[cur]?.classList.remove('on');
+      const prev = slides[cur];
       cur = (n + slides.length) % slides.length;
-      slides[cur].classList.add('on'); dots[cur]?.classList.add('on');
+      if (slides[cur] === prev) return;
+      slides.forEach((s) => { if (s !== prev && s !== slides[cur]) s.classList.remove('out', 'on'); });
+      prev.classList.remove('on'); prev.classList.add('out');
+      slides[cur].classList.remove('out'); slides[cur].classList.add('on');
+      dots.forEach((d, i) => d.classList.toggle('on', i === cur));
+      clearTimeout(outTimer);
+      outTimer = window.setTimeout(() => prev.classList.remove('out'), FADE);
     };
-    const start = () => { clearInterval(timer); if (!reduce) timer = window.setInterval(() => { if (seen && !document.hidden) go(cur + 1); }, 2000); };
-    dots.forEach((d) => d.addEventListener('click', () => { go(Number(d.dataset.slide)); start(); }));
+    // Only switch once the next photo is fully decoded, so it never pops in half-loaded.
+    const goReady = (n: number) => {
+      if (busy) return;
+      busy = true;
+      const img = slides[(n + slides.length) % slides.length].querySelector('img');
+      Promise.resolve(img?.decode?.()).catch(() => {}).then(() => { go(n); busy = false; });
+    };
+    const start = () => { clearInterval(timer); if (!reduce) timer = window.setInterval(() => { if (seen && !document.hidden) goReady(cur + 1); }, HOLD); };
+    dots.forEach((d) => d.addEventListener('click', () => { goReady(Number(d.dataset.slide)); start(); }));
     new IntersectionObserver((e) => { seen = e[0].isIntersecting; }).observe(hero);
     start();
   }

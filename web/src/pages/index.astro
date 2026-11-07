@@ -35,7 +35,7 @@ const slides = photos.map((src) => { const f = frame[src.split('/').pop() as str
       <div class="hero-bgwrap">
         {slides.length ? slides.map((sl, i) => (
           <div class={`slide ${i === 0 ? 'on' : ''}`}>
-            <img class="hero-bg" src={sl.src} srcset={sl.set} sizes="100vw" alt="" style={sl.st} decoding="async" fetchpriority={i === 0 ? 'high' : 'auto'} loading={i === 0 ? 'eager' : 'lazy'} />
+            <img class="hero-bg" src={sl.src} srcset={sl.set} sizes="100vw" alt="" style={sl.st} decoding="async" fetchpriority={i === 0 ? 'high' : 'auto'} loading="eager" />
           </div>
         )) : <div class="slide on"><div class="hero-fallback"></div></div>}
       </div>
