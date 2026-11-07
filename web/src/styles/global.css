@@ -22,7 +22,8 @@
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 html { scroll-behavior: smooth; }
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Noto Sans Bengali', 'Segoe UI', system-ui, sans-serif;
+  /* Latin glyphs use Montserrat, Bengali glyphs fall through to Tiro Bangla */
+  font-family: 'Montserrat', 'Tiro Bangla', system-ui, sans-serif;
   color: var(--ink);
   background: var(--bg);
   line-height: 1.6;

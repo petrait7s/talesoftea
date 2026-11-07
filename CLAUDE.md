@@ -17,7 +17,7 @@ Telegram Bot for new-order alerts. Keep dependencies minimal.
 
 ## Design (web/)
 Palette "Matcha Glass": light, frosted-glass cards (subtle, low gloss), bento grid on home.
-Tokens live in `web/src/styles/global.css`. Bangla-first (Noto Sans Bengali) with English toggle.
+Tokens live in `web/src/styles/global.css`. Bangla-first with English toggle. Fonts: Tiro Bangla (Bangla), Montserrat (English).
 Mobile feels like an app (bottom tab bar, installable PWA). Desktop is a normal website.
 
 ## RULES
