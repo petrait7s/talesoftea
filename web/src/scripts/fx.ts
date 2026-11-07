@@ -22,11 +22,12 @@ const hero = document.getElementById('hero');
 if (hero) {
   const bgw = hero.querySelector<HTMLElement>('.hero-bgwrap');
   if (bgw && !reduce && matchMedia('(pointer:fine)').matches) {
+    let raf = 0, px = 0, py = 0;
     hero.addEventListener('pointermove', (e) => {
       const r = hero.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
-      bgw.style.transform = `translate3d(${(-x * 22).toFixed(1)}px, ${(-y * 14).toFixed(1)}px, 0)`;
-    });
+      px = (e.clientX - r.left) / r.width - 0.5; py = (e.clientY - r.top) / r.height - 0.5;
+      if (!raf) raf = requestAnimationFrame(() => { raf = 0; bgw.style.transform = `translate3d(${(-px * 22).toFixed(1)}px, ${(-py * 14).toFixed(1)}px, 0)`; });
+    }, { passive: true });
     hero.addEventListener('pointerleave', () => { bgw.style.transform = ''; });
   }
   const slides = [...hero.querySelectorAll<HTMLElement>('.slide')];

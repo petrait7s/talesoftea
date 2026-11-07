@@ -2,37 +2,42 @@
 import Base from '../layouts/Base.astro';
 import T from '../components/T.astro';
 import TeaCard from '../components/TeaCard.astro';
-import TeaGarden from '../components/TeaGarden.astro';
 import fs from 'node:fs';
 import path from 'node:path';
 import { TEAS, price } from '../data/teas';
 const feat = TEAS.filter((t) => [1, 4, 3, 6].includes(t.id));
 const first = TEAS[0];
-// Real photos: put files in web/public/hero/ (any name, sorted A-Z) or one at web/public/hero.jpg.
-// With none, three illustrated garden scenes (morning, noon, golden hour) rotate instead.
+// Photos: put files in web/public/hero/ (any names, sorted A-Z). Optional smaller copies named
+// <name>-800.webp and <name>-1400.webp are used on phones. With no photos a plain gradient shows.
 const pub = path.join(process.cwd(), 'public');
 const ok = /\.(jpe?g|webp|png|avif)$/i;
-const dir = fs.existsSync(path.join(pub, 'hero')) ? fs.readdirSync(path.join(pub, 'hero')).filter((f) => ok.test(f)).sort().map((f) => `/hero/${f}`) : [];
-const single = ['hero.webp', 'hero.jpg', 'hero.jpeg', 'hero.png'].filter((f) => fs.existsSync(path.join(pub, f))).map((f) => `/${f}`);
-const photos = [...dir, ...single];
-// Focal point per photo so the subject survives the wide crop (default: centre).
-const focus: Record<string, string> = {
-  'hero-1.webp': 'object-position:50% 55%',
-  'hero-2.webp': 'object-position:50% 40%',
-  'hero-3.webp': 'object-position:50% 64%;--tx:15%;--sc:1.32;--ty:-16%;--msc:1.3', // woman moves right, clear of the headline
-  'hero-4.webp': 'object-position:50% 62%;--fx:-1', // cyclist flipped to the right side
+const hasSize = /-(800|1400)\.\w+$/;
+const photos = fs.existsSync(path.join(pub, 'hero'))
+  ? fs.readdirSync(path.join(pub, 'hero')).filter((f) => ok.test(f) && !hasSize.test(f)).sort().map((f) => `/hero/${f}`)
+  : [];
+// Per-photo framing: intrinsic width (for srcset) and a focal point so the subject clears the headline.
+const frame: Record<string, { w: number; st?: string }> = {
+  'hero-1.webp': { w: 2000, st: 'object-position:50% 55%' },
+  'hero-2.webp': { w: 2000, st: 'object-position:50% 40%' },
+  'hero-3.webp': { w: 1588, st: 'object-position:50% 64%;--tx:15%;--sc:1.32;--ty:-16%;--msc:1.3' },
+  'hero-4.webp': { w: 2000, st: 'object-position:50% 62%;--fx:-1' },
 };
-const slides = photos.length ? photos.map((src) => ({ src, st: focus[src.split('/').pop() as string] || '' })) : [{ v: 0 }, { v: 1 }, { v: 2 }];
+const srcset = (src: string, w: number) => {
+  const base = src.replace(/\.\w+$/, ''), ext = src.slice(base.length);
+  const has = (n: number) => fs.existsSync(path.join(pub, `${base}-${n}${ext}`));
+  return [has(800) && `${base}-800${ext} 800w`, has(1400) && `${base}-1400${ext} 1400w`, `${src} ${w}w`].filter(Boolean).join(', ');
+};
+const slides = photos.map((src) => { const f = frame[src.split('/').pop() as string] || { w: 2000 }; return { src, st: f.st || '', set: srcset(src, f.w) }; });
 ---
 <Base title="Tales of Tea | প্রতি কাপে একটা গল্প" active="home">
   <div class="zone"><div class="wrap">
     <section class="hero scene glass" id="hero">
       <div class="hero-bgwrap">
-        {slides.map((sl, i) => (
+        {slides.length ? slides.map((sl, i) => (
           <div class={`slide ${i === 0 ? 'on' : ''}`}>
-            {sl.src ? <img class="hero-bg" src={sl.src} alt="" style={sl.st} decoding="async" fetchpriority={i === 0 ? 'high' : 'auto'} loading={i === 0 ? 'eager' : 'lazy'} /> : <TeaGarden variant={sl.v} />}
+            <img class="hero-bg" src={sl.src} srcset={sl.set} sizes="100vw" alt="" style={sl.st} decoding="async" fetchpriority={i === 0 ? 'high' : 'auto'} loading={i === 0 ? 'eager' : 'lazy'} />
           </div>
-        ))}
+        )) : <div class="slide on"><div class="hero-fallback"></div></div>}
       </div>
       {slides.length > 1 && <div class="hero-dots">{slides.map((_, i) => <button type="button" class={i === 0 ? 'on' : ''} data-slide={i} aria-label={`Slide ${i + 1}`}></button>)}</div>}
       <div class="hero-shade"></div>
