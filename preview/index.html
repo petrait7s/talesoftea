@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2F5D2E">
+<title>Tales of Tea | Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#2F5D2E; --green-d:#244A24; --leaf:#7FB83F; --brown:#7A4A28; --ink:#3E2615;
+  --amber:#E8A33D; --cream:#F6E8C8; --bg:#FBFCF8; --ok:#2F8F4E; --bad:#B3412E;
+  --card:#fff; --line:#E9E2D0; --muted:#7b6a58;
+  --radius:18px; --shadow:0 6px 24px rgba(62,38,21,.10);
+  --nav-h:64px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans Bengali',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;padding-bottom:calc(var(--nav-h) + 76px + env(safe-area-inset-bottom))}
+h1,h2,h3{font-family:'Playfair Display','Noto Sans Bengali',serif;line-height:1.2}
+img{max-width:100%;display:block}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+.sec{padding:40px 0}
+.sec h2{font-size:1.6rem;color:var(--green);margin-bottom:6px}
+.sec .sub{color:var(--muted);margin-bottom:22px}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:30;background:rgba(251,252,248,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top)}
+.top .wrap{display:flex;align-items:center;gap:14px;height:62px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--green)}
+.brand img{height:50px;width:auto;mix-blend-mode:multiply}
+.nav{display:none;margin-left:auto;gap:6px}
+.nav a{padding:8px 14px;border-radius:99px;color:var(--ink);text-decoration:none;font-weight:500}
+.nav a:hover{background:var(--cream)}
+.tools{margin-left:auto;display:flex;gap:8px;align-items:center}
+.lang{border:1px solid var(--line);border-radius:99px;padding:6px 12px;font-size:.85rem;background:#fff}
+.cartbtn{display:none;position:relative;background:var(--green);color:#fff;padding:9px 16px;border-radius:99px;font-weight:700}
+.badge{position:absolute;top:-6px;right:-4px;background:var(--amber);color:var(--ink);border-radius:99px;min-width:20px;height:20px;font-size:.75rem;display:grid;place-items:center;padding:0 5px}
+
+/* hero */
+.hero{background:linear-gradient(135deg,var(--green) 0%,#3d7a3a 55%,var(--leaf) 140%);color:#fff;border-radius:0 0 28px 28px;overflow:hidden;position:relative}
+.hero .wrap{display:grid;gap:22px;padding-top:34px;padding-bottom:40px}
+.hero h1{font-size:2rem}
+.hero p{opacity:.92;max-width:520px}
+.hero .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 22px;border-radius:99px;font-weight:700;text-decoration:none;min-height:48px}
+.btn.amber{background:var(--amber);color:var(--ink)}
+.btn.ghost{border:1.5px solid rgba(255,255,255,.7);color:#fff}
+.btn.green{background:var(--green);color:#fff}
+.btn.block{width:100%}
+.btn:active{transform:scale(.98)}
+.hero .art{display:grid;place-items:center}
+.hero .art .cup{width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.12);display:grid;place-items:center}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.chip{background:rgba(255,255,255,.16);padding:5px 12px;border-radius:99px;font-size:.82rem}
+
+/* products */
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;transition:transform .2s}
+.card:hover{transform:translateY(-3px)}
+.thumb{aspect-ratio:1/0.82;display:grid;place-items:center;position:relative}
+.tag{position:absolute;top:10px;left:10px;background:#fff;color:var(--green);font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:99px}
+.card .body{padding:12px 12px 14px;display:flex;flex-direction:column;gap:4px;flex:1}
+.card h3{font-size:1rem;font-family:'Noto Sans Bengali',sans-serif;font-weight:700}
+.card .grade{font-size:.8rem;color:var(--muted)}
+.price{margin-top:auto;font-weight:700;color:var(--brown)}
+.price small{font-weight:400;color:var(--muted)}
+.add{margin-top:8px;background:var(--cream);color:var(--green);font-weight:700;border-radius:12px;padding:10px;min-height:44px}
+.add:hover{background:var(--amber)}
+.note{font-size:.8rem;color:var(--muted);margin-top:14px}
+
+/* steps */
+.steps{display:grid;gap:12px}
+.step{background:var(--cream);border-radius:var(--radius);padding:16px;display:flex;gap:14px;align-items:flex-start}
+.step b.n{flex:none;width:34px;height:34px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center}
+
+/* order form */
+.order{display:grid;gap:18px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+.panel h3{margin-bottom:12px;color:var(--green);font-family:'Noto Sans Bengali',sans-serif}
+label{display:block;font-weight:500;margin:10px 0 4px;font-size:.92rem}
+input,textarea{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;font:inherit;background:var(--bg);color:var(--ink)}
+input:focus,textarea:focus{outline:0;border-color:var(--leaf);box-shadow:0 0 0 3px rgba(127,184,63,.22)}
+.pay{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px}
+.pay button{border:1.5px solid var(--line);border-radius:12px;padding:10px 4px;background:#fff;font-weight:700;min-height:46px}
+.pay button.on{border-color:var(--green);background:#EAF3E3;color:var(--green)}
+.row{display:flex;justify-content:space-between;gap:10px;padding:6px 0}
+.row.total{border-top:1.5px dashed var(--line);margin-top:6px;padding-top:12px;font-weight:700;font-size:1.1rem;color:var(--brown)}
+.line{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.line .dot{width:42px;height:42px;border-radius:12px;flex:none}
+.line .nm{flex:1;font-weight:500;font-size:.92rem}
+.line .nm small{display:block;color:var(--muted)}
+.qty{display:flex;align-items:center;gap:8px}
+.qty button{width:32px;height:32px;border-radius:50%;background:var(--cream);font-weight:700;color:var(--green)}
+.empty{color:var(--muted);text-align:center;padding:22px 0}
+.hint{background:#FFF7E6;border:1px dashed var(--amber);padding:10px 12px;border-radius:12px;font-size:.86rem;margin-top:10px}
+
+/* footer */
+footer{background:var(--ink);color:#e8dcc6;padding:30px 0;margin-top:20px}
+footer .wrap{display:grid;gap:10px}
+footer a{color:var(--amber)}
+
+/* mobile bottom nav + cart bar */
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:40;background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding-bottom:env(safe-area-inset-bottom);box-shadow:0 -6px 20px rgba(62,38,21,.08)}
+.tabs a{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 0 7px;font-size:.72rem;color:var(--muted);text-decoration:none;position:relative}
+.tabs a.on{color:var(--green);font-weight:700}
+.tabs svg{width:24px;height:24px}
+.tabs .badge{top:2px;right:calc(50% - 22px)}
+.cartbar{position:fixed;left:12px;right:12px;bottom:calc(var(--nav-h) + 10px + env(safe-area-inset-bottom));z-index:35;background:var(--green);color:#fff;border-radius:16px;padding:12px 16px;display:none;align-items:center;justify-content:space-between;box-shadow:0 10px 28px rgba(36,74,36,.4)}
+.cartbar.show{display:flex}
+.cartbar b{color:var(--amber)}
+
+/* sheet */
+.scrim{position:fixed;inset:0;background:rgba(40,25,12,.5);z-index:60;display:none}
+.scrim.open{display:block}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:61;background:#fff;border-radius:26px 26px 0 0;padding:18px 18px calc(22px + env(safe-area-inset-bottom));transform:translateY(105%);transition:transform .28s ease;max-height:88vh;overflow:auto}
+.sheet.open{transform:none}
+.sheet .grab{width:44px;height:5px;border-radius:9px;background:var(--line);margin:0 auto 14px}
+.sheet h3{font-family:'Noto Sans Bengali',sans-serif;color:var(--green)}
+.weights{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:12px 0}
+.weights button{border:1.5px solid var(--line);border-radius:14px;padding:10px;text-align:left;background:#fff}
+.weights button.on{border-color:var(--green);background:#EAF3E3}
+.weights b{display:block}
+.toast{position:fixed;left:50%;bottom:calc(var(--nav-h) + 96px);transform:translate(-50%,20px);background:var(--ink);color:#fff;padding:10px 18px;border-radius:99px;z-index:90;opacity:0;transition:.25s;pointer-events:none;font-size:.9rem}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* desktop */
+@media (min-width:860px){
+  body{padding-bottom:0}
+  .tabs,.cartbar{display:none!important}
+  .nav{display:flex}
+  .tools{margin-left:10px}
+  .cartbtn{display:inline-block}
+  .hero .wrap{grid-template-columns:1.2fr .8fr;align-items:center;padding-top:64px;padding-bottom:70px}
+  .hero h1{font-size:3rem}
+  .hero .art .cup{width:300px;height:300px}
+  .grid{grid-template-columns:repeat(4,1fr);gap:20px}
+  .steps{grid-template-columns:repeat(3,1fr)}
+  .order{grid-template-columns:1.1fr .9fr;align-items:start}
+  .sheet{left:50%;right:auto;bottom:50%;width:460px;border-radius:24px;transform:translate(-50%,50%) scale(.94);opacity:0;pointer-events:none}
+  .sheet.open{transform:translate(-50%,50%);opacity:1;pointer-events:auto}
+  .sheet .grab{display:none}
+  .toast{bottom:30px}
+  .sec{padding:60px 0}
+  .sec h2{font-size:2rem}
+  footer .wrap{grid-template-columns:2fr 1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#home"><img src="logo.jpg" alt="Tales of Tea"></a>
+    <nav class="nav">
+      <a href="#home" data-i="nav_home">Home</a>
+      <a href="#teas" data-i="nav_teas">Teas</a>
+      <a href="#how" data-i="nav_how">How to order</a>
+      <a href="#order" data-i="nav_order">Order</a>
+    </nav>
+    <div class="tools">
+      <button class="lang" id="langBtn">EN</button>
+      <button class="cartbtn" id="cartTop"><span data-i="cart">Cart</span> <span class="badge" id="badgeTop">0</span></button>
+    </div>
+  </div>
+</header>
+
+<main id="home">
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <h1 data-i="hero_t">Sotti cha-er golpo, apnar cup-e</h1>
+        <p data-i="hero_p">8 dhoroner bachai kora cha. 100g theke 1kg. Cash on delivery ba bKash/Nagad-e 60 sekende order.</p>
+        <div class="chips"><span class="chip" data-i="chip1">Cash on Delivery</span><span class="chip">bKash</span><span class="chip">Nagad</span><span class="chip" data-i="chip2">Poro-din delivery</span></div>
+        <div class="cta" style="margin-top:18px">
+          <a class="btn amber" href="#teas" data-i="shop">Cha dekhun</a>
+          <a class="btn ghost" href="#how" data-i="how_btn">Kivabe order</a>
+        </div>
+      </div>
+      <div class="art">
+        <div class="cup">
+          <svg width="150" height="150" viewBox="0 0 120 120" fill="none">
+            <path d="M40 24c-6 8 6 12 0 22M58 20c-6 8 6 12 0 22M76 24c-6 8 6 12 0 22" stroke="#F6E8C8" stroke-width="5" stroke-linecap="round" opacity=".9"/>
+            <path d="M24 56h72v10c0 20-14 34-36 34S24 86 24 66V56z" fill="#7A4A28"/>
+            <ellipse cx="60" cy="56" rx="36" ry="8" fill="#E8A33D"/>
+            <path d="M96 62c14-2 18 14 2 20" stroke="#7A4A28" stroke-width="7" stroke-linecap="round"/>
+            <path d="M18 104c-4-14 8-22 20-18-4 10-10 16-20 18z" fill="#7FB83F"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="teas">
+    <div class="wrap">
+      <h2 data-i="teas_t">Amader cha</h2>
+      <p class="sub" data-i="teas_s">Variant select kore cart-e dan. Dam weight onujayi.</p>
+      <div class="grid" id="grid"></div>
+      <p class="note" data-i="sample">* Naam, grade, dam sob sample. Pore Admin panel theke bodlano jabe.</p>
+    </div>
+  </section>
+
+  <section class="sec" id="how" style="background:#fff">
+    <div class="wrap">
+      <h2 data-i="how_t">Kivabe order korben</h2>
+      <p class="sub" data-i="how_s">3 ta dhap, 1 minute-er kom.</p>
+      <div class="steps">
+        <div class="step"><b class="n">1</b><div><b data-i="s1t">Cha bachai korun</b><div data-i="s1d">Weight ar poriman select korun.</div></div></div>
+        <div class="step"><b class="n">2</b><div><b data-i="s2t">Naam, phone, thikana</b><div data-i="s2d">Payment method select korun: COD, bKash ba Nagad.</div></div></div>
+        <div class="step"><b class="n">3</b><div><b data-i="s3t">Amra phone kore confirm kori</b><div data-i="s3d">Order pathiye deoa hoy. Delivery-te taka din.</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="order">
+    <div class="wrap">
+      <h2 data-i="ord_t">Order korun</h2>
+      <p class="sub" data-i="ord_s">Cart theke order confirm korun.</p>
+      <div class="order">
+        <div class="panel">
+          <h3 data-i="cart">Cart</h3>
+          <div id="lines"></div>
+          <div id="sum"></div>
+        </div>
+        <form class="panel" id="form" autocomplete="on">
+          <h3 data-i="you">Apnar tothyo</h3>
+          <label data-i="f_name">Naam</label><input required id="fn" placeholder="Rahim Uddin">
+          <label data-i="f_phone">Phone (01XXXXXXXXX)</label><input required id="fp" inputmode="numeric" pattern="01[3-9][0-9]{8}" placeholder="01712345678">
+          <label data-i="f_addr">Thikana</label><textarea required id="fa" rows="3" placeholder="Bari, road, thana, jela"></textarea>
+          <label data-i="f_pay">Payment</label>
+          <div class="pay" id="pay">
+            <button type="button" class="on" data-m="cod">COD</button>
+            <button type="button" data-m="bkash">bKash</button>
+            <button type="button" data-m="nagad">Nagad</button>
+          </div>
+          <div id="trxBox" style="display:none">
+            <div class="hint"><span data-i="send_to">Ei number-e taka pathan:</span> <b>01XXX-XXXXXX</b> (<span data-i="placeholder_no">sample</span>)</div>
+            <label data-i="f_sender">Je number theke pathiyechen</label><input id="fs" inputmode="numeric" placeholder="01XXXXXXXXX">
+            <label data-i="f_trx">TrxID</label><input id="ft" placeholder="8N7A6D5EE">
+          </div>
+          <button class="btn green block" style="margin-top:16px" data-i="confirm">Order confirm</button>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div><b>Tales of Tea</b><br><span data-i="foot_p">Bangladesh-er cha, apnar ghore.</span></div>
+    <div><b data-i="contact">Jogajog</b><br>01XXX-XXXXXX<br><a href="#">Facebook Page</a></div>
+    <div><b data-i="hours">Somoy</b><br>Sokal 9 - Raat 9</div>
+  </div>
+</footer>
+
+<div class="cartbar" id="cartbar">
+  <span><span id="cbN">0</span> <span data-i="items">ti item</span> &middot; <b id="cbT">0</b></span>
+  <button class="btn amber" style="min-height:40px;padding:8px 16px" id="cbGo" data-i="checkout">Order</button>
+</div>
+
+<nav class="tabs">
+  <a href="#home" class="on" data-t="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8v10H3z"/></svg><span data-i="nav_home">Home</span></a>
+  <a href="#teas" data-t="teas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8h13v5a6 6 0 01-6 6H10a6 6 0 01-6-6V8zM17 10h2a2 2 0 010 4h-2M8 3v2M12 3v2"/></svg><span data-i="nav_teas">Teas</span></a>
+  <a href="#order" data-t="cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 4h3l2 11h10l2-8H7"/><circle cx="9" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/></svg><span data-i="cart">Cart</span><span class="badge" id="badgeTab">0</span></a>
+  <a href="#how" data-t="how"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16v.5"/></svg><span data-i="nav_how">Help</span></a>
+</nav>
+
+<div class="scrim" id="scrim"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true">
+  <div class="grab"></div>
+  <h3 id="shName"></h3>
+  <div class="grade" id="shGrade" style="color:var(--muted);font-size:.88rem"></div>
+  <div class="weights" id="shW"></div>
+  <div class="row"><span data-i="qty">Poriman</span>
+    <div class="qty"><button id="qm">-</button><b id="qv">1</b><button id="qp">+</button></div></div>
+  <button class="btn green block" style="margin-top:10px" id="shAdd"></button>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const TEAS=[
+ {id:1,n:{bn:'Sylhet Premium',en:'Sylhet Premium'},g:{bn:'Orange Pekoe',en:'Orange Pekoe'},tag:'Best',c:['#2F5D2E','#7FB83F'],base:380},
+ {id:2,n:{bn:'Dust Cha (CTC)',en:'CTC Dust Tea'},g:{bn:'Strong, dudh-cha',en:'Strong, milk tea'},c:['#7A4A28','#C98B4E'],base:260},
+ {id:3,n:{bn:'Green Tea Classic',en:'Green Tea Classic'},g:{bn:'Hal-ka, health',en:'Light, healthy'},c:['#4E8B3A','#B7DB7A'],base:520},
+ {id:4,n:{bn:'Masala Cha',en:'Masala Chai'},g:{bn:'Elach, dalchini',en:'Cardamom, cinnamon'},c:['#8A4B1F','#E8A33D'],base:420},
+ {id:5,n:{bn:'Lemon Ginger',en:'Lemon Ginger'},g:{bn:'Herbal',en:'Herbal'},c:['#C08A1E','#F2D06B'],base:480},
+ {id:6,n:{bn:'Black Tea Gold',en:'Black Tea Gold'},g:{bn:'Premium BOP',en:'Premium BOP'},tag:'New',c:['#3E2615','#7A4A28'],base:450},
+ {id:7,n:{bn:'Tulsi Cha',en:'Tulsi Tea'},g:{bn:'Herbal',en:'Herbal'},c:['#2F8F4E','#8FD1A0'],base:540},
+ {id:8,n:{bn:'Special Blend',en:'Special Blend'},g:{bn:'Chef pick',en:"Chef's pick"},c:['#244A24','#E8A33D'],base:620}
+];
+const W=[{g:100,k:1,l:'100g'},{g:250,k:2.35,l:'250g'},{g:500,k:4.5,l:'500g'},{g:1000,k:8.6,l:'1kg'}];
+const price=(t,w)=>Math.round(t.base*w.k/10)*10;
+const DEL=60;
+const I={
+ bn:{nav_home:'Home',nav_teas:'Cha',nav_how:'Kivabe',nav_order:'Order',cart:'Cart',hero_t:'Sotti cha-er golpo, apnar cup-e',hero_p:'8 dhoroner bachai kora cha. 100g theke 1kg. COD ba bKash/Nagad-e 60 sekende order.',chip1:'Cash on Delivery',chip2:'Dorjay delivery',shop:'Cha dekhun',how_btn:'Kivabe order',teas_t:'Amader cha',teas_s:'Variant select kore cart-e dan.',sample:'* Naam, grade, dam sob sample. Pore Admin panel theke bodlano jabe.',how_t:'Kivabe order korben',how_s:'3 dhap, 1 minute-er kom.',s1t:'Cha bachai korun',s1d:'Weight ar poriman select korun.',s2t:'Naam, phone, thikana',s2d:'COD, bKash ba Nagad select korun.',s3t:'Amra confirm kori',s3d:'Phone kore confirm kore pathiye dei.',ord_t:'Order korun',ord_s:'Cart theke confirm korun.',you:'Apnar tothyo',f_name:'Naam',f_phone:'Phone (01XXXXXXXXX)',f_addr:'Thikana',f_pay:'Payment',send_to:'Ei number-e taka pathan:',placeholder_no:'sample',f_sender:'Je number theke pathiyechen',f_trx:'TrxID',confirm:'Order confirm',foot_p:'Bangladesh-er cha, apnar ghore.',contact:'Jogajog',hours:'Somoy',items:'ti item',checkout:'Order',qty:'Poriman',add:'Cart-e dan',empty:'Cart khali. Cha select korun.',sub:'Sub-total',del:'Delivery',tot:'Mot',from:'Shuru',added:'Cart-e dewa hoyeche',done:'Dhonnobad! Order pathano hoyeche. (Preview)'},
+ en:{nav_home:'Home',nav_teas:'Teas',nav_how:'How',nav_order:'Order',cart:'Cart',hero_t:'Real tea stories, in your cup',hero_p:'8 hand-picked teas, 100g to 1kg. Order in 60 seconds with COD or bKash/Nagad.',chip1:'Cash on Delivery',chip2:'Door delivery',shop:'Shop teas',how_btn:'How to order',teas_t:'Our teas',teas_s:'Pick a weight and add to cart.',sample:'* Names, grades and prices are samples. Editable from the Admin panel later.',how_t:'How to order',how_s:'3 steps, under a minute.',s1t:'Pick your tea',s1d:'Choose weight and quantity.',s2t:'Name, phone, address',s2d:'Choose COD, bKash or Nagad.',s3t:'We confirm',s3d:'We call to confirm, then ship.',ord_t:'Place order',ord_s:'Confirm from your cart.',you:'Your details',f_name:'Name',f_phone:'Phone (01XXXXXXXXX)',f_addr:'Address',f_pay:'Payment',send_to:'Send money to:',placeholder_no:'sample',f_sender:'Sender number',f_trx:'TrxID',confirm:'Confirm order',foot_p:"Bangladesh's tea, at your door.",contact:'Contact',hours:'Hours',items:'items',checkout:'Order',qty:'Quantity',add:'Add to cart',empty:'Cart is empty. Pick a tea.',sub:'Subtotal',del:'Delivery',tot:'Total',from:'From',added:'Added to cart',done:'Thank you! Order sent. (Preview)'}
+};
+let lang='bn',cart=[],sel=null,wi=1,q=1,pm='cod';
+const $=s=>document.querySelector(s);
+const t=k=>I[lang][k]||k;
+const tk=n=>'৳'+n;
+function leaf(c){return `<svg width="64" height="64" viewBox="0 0 64 64" fill="none"><path d="M10 54C8 28 28 8 56 8c0 28-18 48-46 46z" fill="#fff" opacity=".9"/><path d="M12 52C26 38 38 26 52 12" stroke="${c}" stroke-width="3" stroke-linecap="round"/></svg>`}
+function renderGrid(){
+ $('#grid').innerHTML=TEAS.map(x=>`<div class="card">
+  <div class="thumb" style="background:linear-gradient(145deg,${x.c[0]},${x.c[1]})">${x.tag?`<span class="tag">${x.tag}</span>`:''}${leaf(x.c[0])}</div>
+  <div class="body"><h3>${x.n[lang]}</h3><div class="grade">${x.g[lang]}</div>
+  <div class="price"><small>${t('from')}</small> ${tk(price(x,W[0]))}</div>
+  <button class="add" data-id="${x.id}">+ ${t('add')}</button></div></div>`).join('');
+ document.querySelectorAll('.add').forEach(b=>b.onclick=()=>openSheet(+b.dataset.id));
+}
+function openSheet(id){
+ sel=TEAS.find(x=>x.id===id);wi=1;q=1;drawSheet();
+ $('#scrim').classList.add('open');$('#sheet').classList.add('open');
+}
+function closeSheet(){$('#scrim').classList.remove('open');$('#sheet').classList.remove('open')}
+function drawSheet(){
+ $('#shName').textContent=sel.n[lang];$('#shGrade').textContent=sel.g[lang];
+ $('#shW').innerHTML=W.map((w,i)=>`<button class="${i===wi?'on':''}" data-i="${i}"><b>${w.l}</b>${tk(price(sel,w))}</button>`).join('');
+ $('#shW').querySelectorAll('button').forEach(b=>b.onclick=()=>{wi=+b.dataset.i;drawSheet()});
+ $('#qv').textContent=q;
+ $('#shAdd').textContent=`${t('add')} · ${tk(price(sel,W[wi])*q)}`;
+}
+$('#qm').onclick=()=>{q=Math.max(1,q-1);drawSheet()};
+$('#qp').onclick=()=>{q=Math.min(20,q+1);drawSheet()};
+$('#scrim').onclick=closeSheet;
+$('#shAdd').onclick=()=>{
+ const k=sel.id+'-'+wi,e=cart.find(c=>c.k===k);
+ if(e)e.q+=q;else cart.push({k,t:sel,w:W[wi],q});
+ closeSheet();renderCart();toast(t('added'));
+};
+function renderCart(){
+ const n=cart.reduce((a,c)=>a+c.q,0),sub=cart.reduce((a,c)=>a+price(c.t,c.w)*c.q,0);
+ $('#lines').innerHTML=cart.length?cart.map((c,i)=>`<div class="line"><div class="dot" style="background:linear-gradient(145deg,${c.t.c[0]},${c.t.c[1]})"></div><div class="nm">${c.t.n[lang]}<small>${c.w.l} · ${tk(price(c.t,c.w))}</small></div><div class="qty"><button data-i="${i}" data-d="-1">-</button><b>${c.q}</b><button data-i="${i}" data-d="1">+</button></div></div>`).join(''):`<div class="empty">${t('empty')}</div>`;
+ $('#lines').querySelectorAll('.qty button').forEach(b=>b.onclick=()=>{
+  const c=cart[+b.dataset.i];c.q+=+b.dataset.d;if(c.q<1)cart.splice(+b.dataset.i,1);renderCart()});
+ const del=cart.length?DEL:0;
+ $('#sum').innerHTML=cart.length?`<div class="row"><span>${t('sub')}</span><span>${tk(sub)}</span></div><div class="row"><span>${t('del')}</span><span>${tk(del)}</span></div><div class="row total"><span>${t('tot')}</span><span>${tk(sub+del)}</span></div>`:'';
+ ['#badgeTop','#badgeTab'].forEach(s=>{$(s).textContent=n;$(s).style.display=n?'grid':'none'});
+ $('#cbN').textContent=n;$('#cbT').textContent=tk(sub+(cart.length?DEL:0));
+ $('#cartbar').classList.toggle('show',n>0);
+}
+document.querySelectorAll('#pay button').forEach(b=>b.onclick=()=>{
+ pm=b.dataset.m;document.querySelectorAll('#pay button').forEach(x=>x.classList.toggle('on',x===b));
+ const m=pm!=='cod';$('#trxBox').style.display=m?'block':'none';$('#fs').required=m;$('#ft').required=m;
+});
+$('#form').onsubmit=e=>{e.preventDefault();if(!cart.length){toast(t('empty'));return}toast(t('done'));cart=[];renderCart();e.target.reset()};
+$('#cbGo').onclick=()=>location.hash='order';
+$('#cartTop').onclick=()=>location.hash='order';
+$('#langBtn').onclick=()=>{lang=lang==='bn'?'en':'bn';applyLang()};
+function applyLang(){
+ document.documentElement.lang=lang;$('#langBtn').textContent=lang==='bn'?'EN':'বাংলা';
+ document.querySelectorAll('[data-i]').forEach(el=>{const v=I[lang][el.dataset.i];if(v)el.textContent=v});
+ renderGrid();renderCart();
+}
+function toast(m){const e=$('#toast');e.textContent=m;e.classList.add('show');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('show'),1800)}
+const secs=['home','teas','order','how'];
+addEventListener('scroll',()=>{let cur='home';secs.forEach(s=>{const el=document.getElementById(s);if(el&&el.getBoundingClientRect().top<180)cur=s});
+ document.querySelectorAll('.tabs a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+cur||(cur==='order'&&a.dataset.t==='cart')))},{passive:true});
+applyLang();
+</script>
+</body>
+</html>
