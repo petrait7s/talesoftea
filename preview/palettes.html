@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tales of Tea | Palette Options</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",system-ui,sans-serif;background:#111;color:#fff;padding:20px 14px 60px}
+h1{font-size:1.5rem;text-align:center;margin:10px 0 4px}
+.lead{text-align:center;opacity:.7;margin-bottom:24px;font-size:.92rem}
+.opt{max-width:1100px;margin:0 auto 34px}
+.opt>h2{font-size:1.1rem;margin:0 4px 10px}
+.opt>h2 small{opacity:.6;font-weight:400;margin-left:8px}
+.stage{position:relative;overflow:hidden;border-radius:34px;padding:18px;background:var(--bg);color:var(--ink)}
+.blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:.75;pointer-events:none}
+.b1{width:320px;height:320px;background:var(--b1);top:-90px;left:-60px}
+.b2{width:300px;height:300px;background:var(--b2);bottom:-80px;right:-40px}
+.b3{width:200px;height:200px;background:var(--b3);top:40%;left:50%}
+.glass{position:relative;background:var(--glass);backdrop-filter:blur(22px) saturate(180%);-webkit-backdrop-filter:blur(22px) saturate(180%);
+  border:1px solid var(--edge);border-radius:28px;box-shadow:0 10px 30px var(--sh),inset 0 1px 0 rgba(255,255,255,.7),inset 0 -1px 0 rgba(255,255,255,.08)}
+.glass::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(160deg,rgba(255,255,255,.55),rgba(255,255,255,0) 38%);opacity:var(--gl);pointer-events:none}
+.pill{display:flex;align-items:center;gap:14px;padding:10px 16px;border-radius:99px;margin-bottom:14px;position:relative}
+.pill b{font-size:.95rem}.pill span{font-size:.82rem;opacity:.75}.pill .sp{flex:1}
+.cta{background:var(--p);color:var(--pt);padding:8px 16px;border-radius:99px;font-weight:600;font-size:.85rem;box-shadow:0 4px 14px var(--sh),inset 0 1px 0 rgba(255,255,255,.45)}
+.bento{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;position:relative}
+.t{padding:18px;min-height:130px;display:flex;flex-direction:column;justify-content:flex-end;transition:transform .35s cubic-bezier(.2,.9,.3,1.3)}
+.t:hover{transform:scale(1.025)}
+.t h3{font-size:1.05rem;letter-spacing:-.01em}
+.t p{font-size:.8rem;opacity:.72;margin-top:2px}
+.hero{grid-column:1/-1;min-height:210px}
+.hero h3{font-size:1.7rem;letter-spacing:-.02em;line-height:1.1}
+.num{font-size:2.3rem;font-weight:700;letter-spacing:-.03em;color:var(--p)}
+.solid{background:var(--p);color:var(--pt);border-color:transparent}
+.solid p{opacity:.85}
+.acc{background:var(--a);color:var(--at);border-color:transparent}
+.sw{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;position:relative}
+.sw div{flex:1;min-width:84px;border-radius:16px;padding:10px 8px;font-size:.7rem;font-weight:600;text-align:center;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+.prod{display:flex;gap:12px;align-items:center;padding:12px}
+.prod .im{width:64px;height:64px;border-radius:18px;background:linear-gradient(145deg,var(--p),var(--b1));flex:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.5)}
+.prod b{display:block}.prod small{opacity:.7}
+.prod .pr{margin-left:auto;font-weight:700;color:var(--p)}
+@media(min-width:820px){
+ .bento{grid-template-columns:repeat(4,1fr)}
+ .hero{grid-column:span 2;grid-row:span 2;min-height:300px}
+ .hero h3{font-size:2.3rem}
+ .wide{grid-column:span 2}
+ .stage{padding:26px}
+}
+/* options */
+.A{--bg:linear-gradient(160deg,#EAF4E6,#F8F5E8 60%,#FDEBD0);--ink:#1F2A1F;--p:#2F6B3A;--pt:#fff;--a:#F2A93B;--at:#3A2410;
+   --b1:#9ED36A;--b2:#F6C26B;--b3:#BFE3C4;--glass:rgba(255,255,255,.52);--edge:rgba(255,255,255,.75);--sh:rgba(47,107,58,.14);--gl:.8}
+.B{--bg:linear-gradient(160deg,#FFF3E2,#F7E3C9 55%,#EBD2B6);--ink:#3A2415;--p:#8A5430;--pt:#fff;--a:#7FB83F;--at:#12260a;
+   --b1:#E7A768;--b2:#B9D98A;--b3:#F4C9A0;--glass:rgba(255,250,242,.55);--edge:rgba(255,255,255,.8);--sh:rgba(122,74,40,.16);--gl:.85}
+.C{--bg:linear-gradient(160deg,#0B1710,#10231A 55%,#162B1E);--ink:#EAF5EA;--p:#8FD16A;--pt:#0B1710;--a:#F2A93B;--at:#2A1A08;
+   --b1:#2F8F4E;--b2:#B4742E;--b3:#1F6B5A;--glass:rgba(255,255,255,.09);--edge:rgba(255,255,255,.2);--sh:rgba(0,0,0,.35);--gl:.22}
+.C .glass{box-shadow:0 10px 30px var(--sh),inset 0 1px 0 rgba(255,255,255,.25)}
+.tip{max-width:1100px;margin:0 auto 18px;background:#1c1c1e;border-radius:20px;padding:16px 18px;font-size:.88rem;line-height:1.7;opacity:.92}
+.tip b{color:#F2A93B}
+</style>
+</head>
+<body>
+<h1>Tales of Tea · Palette options</h1>
+<p class="lead">Glossy + transparent + Apple-style bento grid. Hover the tiles on desktop.</p>
+
+<div class="tip"><b>Apple feel kothay:</b> frosted glass (blur + saturate), 1px bright edge, top gloss highlight, 28px radius, bento grid (boro-chhoto tile mix), boro tight heading, spring hover, soft colour blobs pichone.</div>
+
+<!-- A -->
+<section class="opt"><h2>A · Matcha Glass <small>fresh, logo-r green dominant (recommended)</small></h2>
+<div class="stage A"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i>
+ <div class="glass pill"><b>Tales of Tea</b><span>Shop</span><span>Story</span><i class="sp"></i><span class="cta">Cart · 2</span></div>
+ <div class="bento">
+  <div class="glass t hero"><span class="num">8</span><h3>Every cup,<br>a story.</h3><p>Hand-picked leaf, glass-clear prices.</p></div>
+  <div class="glass t solid"><h3>Sylhet Premium</h3><p>৳380 / 100g</p></div>
+  <div class="glass t"><span class="num">COD</span><p>Cash on delivery</p></div>
+  <div class="glass t acc wide"><h3>Free tea tip</h3><p>Steep green tea at 80°C for 2 minutes.</p></div>
+  <div class="glass prod wide"><div class="im"></div><div><b>Masala Chai</b><small>Cardamom, cinnamon</small></div><span class="pr">৳420</span></div>
+ </div>
+ <div class="sw">
+  <div style="background:#2F6B3A;color:#fff">Primary<br>#2F6B3A</div><div style="background:#9ED36A">Leaf<br>#9ED36A</div><div style="background:#F2A93B">Amber<br>#F2A93B</div><div style="background:#EAF4E6">Mist<br>#EAF4E6</div><div style="background:#FDEBD0">Cream<br>#FDEBD0</div><div style="background:#1F2A1F;color:#fff">Ink<br>#1F2A1F</div>
+ </div></div></section>
+
+<!-- B -->
+<section class="opt"><h2>B · Chai Cream <small>warm, cosy, brown dominant</small></h2>
+<div class="stage B"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i>
+ <div class="glass pill"><b>Tales of Tea</b><span>Shop</span><span>Story</span><i class="sp"></i><span class="cta">Cart · 2</span></div>
+ <div class="bento">
+  <div class="glass t hero"><span class="num">8</span><h3>Every cup,<br>a story.</h3><p>Hand-picked leaf, glass-clear prices.</p></div>
+  <div class="glass t solid"><h3>Sylhet Premium</h3><p>৳380 / 100g</p></div>
+  <div class="glass t"><span class="num">COD</span><p>Cash on delivery</p></div>
+  <div class="glass t acc wide"><h3>Free tea tip</h3><p>Steep black tea at 95°C for 3 minutes.</p></div>
+  <div class="glass prod wide"><div class="im"></div><div><b>Masala Chai</b><small>Cardamom, cinnamon</small></div><span class="pr">৳420</span></div>
+ </div>
+ <div class="sw">
+  <div style="background:#8A5430;color:#fff">Primary<br>#8A5430</div><div style="background:#7FB83F">Leaf<br>#7FB83F</div><div style="background:#E7A768">Caramel<br>#E7A768</div><div style="background:#FFF3E2">Cream<br>#FFF3E2</div><div style="background:#EBD2B6">Latte<br>#EBD2B6</div><div style="background:#3A2415;color:#fff">Ink<br>#3A2415</div>
+ </div></div></section>
+
+<!-- C -->
+<section class="opt"><h2>C · Midnight Tea <small>dark glass, premium, glow</small></h2>
+<div class="stage C"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i>
+ <div class="glass pill"><b>Tales of Tea</b><span>Shop</span><span>Story</span><i class="sp"></i><span class="cta">Cart · 2</span></div>
+ <div class="bento">
+  <div class="glass t hero"><span class="num">8</span><h3>Every cup,<br>a story.</h3><p>Hand-picked leaf, glass-clear prices.</p></div>
+  <div class="glass t solid"><h3>Sylhet Premium</h3><p>৳380 / 100g</p></div>
+  <div class="glass t"><span class="num">COD</span><p>Cash on delivery</p></div>
+  <div class="glass t acc wide"><h3>Free tea tip</h3><p>Steep green tea at 80°C for 2 minutes.</p></div>
+  <div class="glass prod wide"><div class="im"></div><div><b>Masala Chai</b><small>Cardamom, cinnamon</small></div><span class="pr">৳420</span></div>
+ </div>
+ <div class="sw">
+  <div style="background:#8FD16A;color:#0B1710">Primary<br>#8FD16A</div><div style="background:#2F8F4E;color:#fff">Forest<br>#2F8F4E</div><div style="background:#F2A93B">Amber<br>#F2A93B</div><div style="background:#0B1710;color:#fff">Night<br>#0B1710</div><div style="background:#162B1E;color:#fff">Moss<br>#162B1E</div><div style="background:#EAF5EA;color:#0B1710">Text<br>#EAF5EA</div>
+ </div></div></section>
+</body>
+</html>
