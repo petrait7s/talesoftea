@@ -1,0 +1,5 @@
+---
+// Bilingual text: both languages in the HTML, CSS shows the active one.
+const { bn, en, html = false } = Astro.props;
+---
+{html ? (<><span class="bn" set:html={bn} /><span class="en" set:html={en} /></>) : (<><span class="bn">{bn}</span><span class="en">{en}</span></>)}

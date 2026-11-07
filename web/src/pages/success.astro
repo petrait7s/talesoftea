@@ -1,0 +1,31 @@
+---
+import Base from '../layouts/Base.astro';
+import T from '../components/T.astro';
+---
+<Base title="অর্ডার | Tales of Tea" active="cart">
+  <div class="wrap"><div class="ok">
+    <div class="tick">✓</div>
+    <h2 style="color:var(--green)"><T bn="ধন্যবাদ! অর্ডার পাওয়া গেছে" en="Thank you! Order received" /></h2>
+    <p><T bn="আমরা শিগগির ফোন করে কনফার্ম করব।" en="We will call you shortly to confirm." /></p>
+    <div class="oid"><T bn="অর্ডার নম্বর" en="Order no" />: <span id="oid">-</span></div>
+    <div class="panel glass" id="det" style="max-width:460px;margin:0 auto 16px;text-align:left" hidden></div>
+    <p class="note" id="demo" hidden><T bn="(ডেমো মোড: কোনো আসল অর্ডার যায়নি)" en="(Demo mode: no real order was sent)" /></p><br />
+    <a class="btn green" href="/"><T bn="হোমে যান" en="Go home" /></a>
+  </div></div>
+</Base>
+<script>
+  import { data, tea } from '../scripts/app';
+  const id = new URLSearchParams(location.search).get('id') || '-';
+  document.getElementById('oid')!.textContent = id;
+  try {
+    const o = JSON.parse(localStorage.getItem('tot_last') || 'null');
+    if (o && o.id === id) {
+      const det = document.getElementById('det')!;
+      det.innerHTML = o.items.map((i: any) => `<div class="row"><span><span class="bn">${tea(i.id).n.bn}</span><span class="en">${tea(i.id).n.en}</span> · ${i.l} × ${i.q}</span></div>`).join('')
+        + `<div class="row total"><span><span class="bn">মোট</span><span class="en">Total</span></span><span>৳${o.tot}</span></div>`;
+      det.hidden = false;
+      if (o.demo) document.getElementById('demo')!.hidden = false;
+    }
+  } catch {}
+  void data;
+</script>

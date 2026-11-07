@@ -1,0 +1,21 @@
+---
+import T from './T.astro';
+import Leaf from './Leaf.astro';
+import { price, TYPE_LABEL } from '../data/teas';
+const { t } = Astro.props;
+const tags = { best: { bn: 'সেরা', en: 'Best' }, new: { bn: 'নতুন', en: 'New' } };
+---
+<article class="card glass" data-type={t.type} data-base={t.base} data-rate={t.r}>
+  <a class="stretch" href={`/product/${t.id}/`} aria-label={t.n.en}></a>
+  <div class="thumb" style={`--c1:${t.c[0]};--c2:${t.c[1]}`}>
+    {t.tag && <span class="tag"><T bn={tags[t.tag].bn} en={tags[t.tag].en} /></span>}
+    <Leaf color={t.c[0]} size={64} />
+  </div>
+  <div class="body">
+    <h3><T bn={t.n.bn} en={t.n.en} /></h3>
+    <div class="grade"><T bn={t.g.bn} en={t.g.en} /></div>
+    <div class="stars">{'★'.repeat(Math.round(t.r))}{'☆'.repeat(5 - Math.round(t.r))}<small>{t.r} ({t.rc})</small></div>
+    <div class="price"><small><T bn="শুরু" en="From" /></small> ৳{price(t, 0)}</div>
+    <button class="qadd" type="button" data-quick={t.id}>+ <T bn="কার্টে দিন" en="Add to cart" /></button>
+  </div>
+</article>

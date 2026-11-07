@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro';
+import T from '../components/T.astro';
+import TeaCard from '../components/TeaCard.astro';
+import { TEAS, TYPE_LABEL } from '../data/teas';
+const types = ['all', 'black', 'green', 'herbal', 'blend'] as const;
+---
+<Base title="শপ | Tales of Tea" active="shop">
+  <div class="wrap">
+    <div class="pagehead"><h1><T bn="আমাদের সব চা" en="All our teas" /></h1><p><T bn="ধরন বেছে নিন, তারপর ওজন।" en="Pick a type, then a weight." /></p></div>
+    <section class="sec" style="padding-top:18px">
+      <div class="filters">
+        {types.map((x) => <button class={`fchip ${x === 'all' ? 'on' : ''}`} type="button" data-ty={x}>{x === 'all' ? <T bn="সব" en="All" /> : <T bn={TYPE_LABEL[x].bn} en={TYPE_LABEL[x].en} />}</button>)}
+      </div>
+      <div class="toolbar"><span><b id="count">{TEAS.length}</b> <T bn="টি চা" en="teas" /></span>
+        <label style="margin:0;display:flex;gap:8px;align-items:center"><T bn="সাজান" en="Sort" />
+          <select id="sortSel"><option value="def">Default</option><option value="lo">৳ ↑</option><option value="hi">৳ ↓</option><option value="rate">★</option></select></label></div>
+      <div class="grid" id="grid">{TEAS.map((t) => <TeaCard t={t} />)}</div>
+    </section>
+  </div>
+</Base>
+<script>
+  const grid = document.getElementById('grid')!;
+  const cards = [...grid.children] as HTMLElement[];
+  let ty = 'all';
+  const apply = () => {
+    const sort = (document.getElementById('sortSel') as HTMLSelectElement).value;
+    const list = cards.slice();
+    if (sort === 'lo') list.sort((a, b) => +a.dataset.base! - +b.dataset.base!);
+    if (sort === 'hi') list.sort((a, b) => +b.dataset.base! - +a.dataset.base!);
+    if (sort === 'rate') list.sort((a, b) => +b.dataset.rate! - +a.dataset.rate!);
+    let n = 0;
+    list.forEach((c) => { const show = ty === 'all' || c.dataset.type === ty; c.style.display = show ? '' : 'none'; if (show) n++; grid.appendChild(c); });
+    document.getElementById('count')!.textContent = String(n);
+  };
+  document.querySelectorAll<HTMLElement>('[data-ty]').forEach((b) => b.addEventListener('click', () => {
+    ty = b.dataset.ty!;
+    document.querySelectorAll('[data-ty]').forEach((x) => x.classList.toggle('on', x === b));
+    apply();
+  }));
+  document.getElementById('sortSel')!.addEventListener('change', apply);
+</script>

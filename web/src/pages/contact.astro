@@ -1,0 +1,33 @@
+---
+import Base from '../layouts/Base.astro';
+import T from '../components/T.astro';
+const faq = [
+  { q: { bn: 'কীভাবে পেমেন্ট করব?', en: 'How do I pay?' }, a: { bn: 'ক্যাশ অন ডেলিভারি, অথবা বিকাশ/নগদে আগে পাঠিয়ে TrxID দিন।', en: 'Cash on delivery, or send via bKash/Nagad first and enter the TrxID.' } },
+  { q: { bn: 'কত দিনে পাব?', en: 'How long does delivery take?' }, a: { bn: 'ঢাকায় ১-২ দিন, বাইরে ২-৪ দিন।', en: '1-2 days in Dhaka, 2-4 days elsewhere.' } },
+  { q: { bn: 'ফেরত নেওয়া হয়?', en: 'Can I return?' }, a: { bn: 'প্যাকেটে সমস্যা থাকলে ডেলিভারির সময়ই জানান।', en: 'Tell us at delivery if the pack has a problem.' } },
+];
+---
+<Base title="যোগাযোগ | Tales of Tea" active="contact">
+  <div class="wrap">
+    <div class="pagehead"><h1><T bn="যোগাযোগ" en="Contact" /></h1><p><T bn="যেকোনো প্রশ্নে লিখুন বা ফোন করুন।" en="Write or call us with any question." /></p></div>
+    <section class="sec cols2" style="padding-top:20px">
+      <div>
+        <div class="ci"><i>📞</i><div><b><T bn="ফোন" en="Phone" /></b><br />01XXX-XXXXXX</div></div>
+        <div class="ci"><i>💬</i><div><b>Facebook</b><br />facebook.com/talesoftea</div></div>
+        <div class="ci"><i>📍</i><div><b><T bn="ঠিকানা" en="Address" /></b><br /><T bn="আপনার ঠিকানা এখানে বসবে" en="Your address goes here" /></div></div>
+        <form class="panel glass" id="cform" style="margin-top:14px">
+          <label><T bn="নাম" en="Name" /></label><input required />
+          <label><T bn="আপনার বার্তা" en="Your message" /></label><textarea required rows="4"></textarea>
+          <button class="btn green" style="margin-top:12px"><T bn="পাঠান" en="Send" /></button>
+        </form>
+      </div>
+      <div class="faq"><h2 style="color:var(--green);margin:0 0 14px"><T bn="সাধারণ প্রশ্ন" en="Common questions" /></h2>
+        {faq.map((f) => <details class="glass"><summary><T bn={f.q.bn} en={f.q.en} /></summary><p><T bn={f.a.bn} en={f.a.en} /></p></details>)}
+      </div>
+    </section>
+  </div>
+</Base>
+<script>
+  import { toast } from '../scripts/app';
+  document.getElementById('cform')!.addEventListener('submit', (e) => { e.preventDefault(); toast('sent'); (e.target as HTMLFormElement).reset(); });
+</script>

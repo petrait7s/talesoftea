@@ -1,0 +1,131 @@
+---
+import Base from '../layouts/Base.astro';
+import T from '../components/T.astro';
+---
+<Base title="কার্ট | Tales of Tea" active="cart">
+  <div class="wrap">
+    <div class="pagehead"><h1><T bn="আপনার কার্ট" en="Your cart" /></h1></div>
+
+    <div class="empty" id="empty" hidden>
+      <div class="em">🍵</div>
+      <h2 style="color:var(--green)"><T bn="কার্ট খালি" en="Your cart is empty" /></h2>
+      <p><T bn="পছন্দের চা বেছে নিন।" en="Pick a tea you like." /></p><br />
+      <a class="btn green" href="/shop/"><T bn="চা কিনুন" en="Shop teas" /></a>
+    </div>
+
+    <section class="sec two" id="checkout" style="padding-top:18px" hidden>
+      <div class="panel glass"><h3><T bn="কার্ট" en="Cart" /></h3><div id="lines"></div><div id="sum"></div></div>
+      <form class="panel glass" id="form" novalidate>
+        <h3><T bn="আপনার তথ্য" en="Your details" /></h3>
+        <label><T bn="নাম" en="Name" /></label><input id="fn" required autocomplete="name" />
+        <label><T bn="ফোন (01XXXXXXXXX)" en="Phone (01XXXXXXXXX)" /></label><input id="fp" required inputmode="tel" placeholder="01712345678" autocomplete="tel" />
+        <label><T bn="পূর্ণ ঠিকানা" en="Full address" /></label><textarea id="fa" required rows="3" autocomplete="street-address"></textarea>
+        <label><T bn="পেমেন্ট" en="Payment" /></label>
+        <div class="pay" id="pay"><button type="button" data-m="cod" class="on">COD</button><button type="button" data-m="bkash">bKash</button><button type="button" data-m="nagad">Nagad</button></div>
+        <div id="trxBox" hidden>
+          <div class="hint"><T bn="এই নম্বরে টাকা পাঠান:" en="Send money to:" /> <b>01XXX-XXXXXX</b> (<T bn="নমুনা" en="sample" />) · <b id="payAmt"></b></div>
+          <label><T bn="যে নম্বর থেকে পাঠিয়েছেন" en="Sender number" /></label><input id="fs" inputmode="tel" />
+          <label>TrxID</label><input id="ft" placeholder="8N7A6D5EE" autocapitalize="characters" />
+        </div>
+        <input class="hp" id="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <button class="btn green block" id="submit" style="margin-top:16px"><T bn="অর্ডার কনফার্ম" en="Confirm order" /> · <span id="subAmt"></span></button>
+      </form>
+    </section>
+  </div>
+</Base>
+<script>
+  import { data, getCart, setCart, totals, price, tea, tk, toast, normalizePhone } from '../scripts/app';
+  const $ = <T extends HTMLElement>(s: string) => document.querySelector(s) as T;
+  let method = 'cod';
+
+  function render() {
+    const cart = getCart();
+    $('#empty').hidden = cart.length > 0;
+    $('#checkout').hidden = cart.length === 0;
+    if (!cart.length) return;
+    $('#lines').innerHTML = cart.map((c, i) => {
+      const t = tea(c.id), w = data.weights[c.wi];
+      return `<div class="cl"><div class="dot" style="--c1:${t.c[0]};--c2:${t.c[1]}"></div>
+        <div class="nm"><a href="/product/${t.id}/" style="text-decoration:none"><span class="bn">${t.n.bn}</span><span class="en">${t.n.en}</span></a>
+        <small>${w.l} · ${tk(price(c.id, c.wi))}</small><button class="x" type="button" data-rm="${i}"><span class="bn">মুছুন</span><span class="en">Remove</span></button></div>
+        <div class="qty"><button type="button" data-d="-1" data-i="${i}">-</button><b>${c.q}</b><button type="button" data-d="1" data-i="${i}">+</button></div></div>`;
+    }).join('');
+    const tt = totals(cart);
+    $('#sum').innerHTML = `<div class="row"><span><span class="bn">সাব-টোটাল</span><span class="en">Subtotal</span></span><span>${tk(tt.sub)}</span></div>
+      <div class="row"><span><span class="bn">ডেলিভারি</span><span class="en">Delivery</span></span><span>${tk(tt.del)}</span></div>
+      <div class="row total"><span><span class="bn">মোট</span><span class="en">Total</span></span><span>${tk(tt.tot)}</span></div>`;
+    $('#subAmt').textContent = tk(tt.tot);
+    $('#payAmt').textContent = tk(tt.tot);
+    document.querySelectorAll<HTMLElement>('[data-d]').forEach((b) => b.addEventListener('click', () => {
+      const c = getCart(); const it = c[Number(b.dataset.i)]; it.q += Number(b.dataset.d);
+      if (it.q < 1) c.splice(Number(b.dataset.i), 1);
+      setCart(c); render();
+    }));
+    document.querySelectorAll<HTMLElement>('[data-rm]').forEach((b) => b.addEventListener('click', () => {
+      const c = getCart(); c.splice(Number(b.dataset.rm), 1); setCart(c); render();
+    }));
+  }
+
+  document.querySelectorAll<HTMLElement>('#pay button').forEach((b) => b.addEventListener('click', () => {
+    method = b.dataset.m!;
+    document.querySelectorAll('#pay button').forEach((x) => x.classList.toggle('on', x === b));
+    $('#trxBox').hidden = method === 'cod';
+  }));
+
+  const mark = (el: HTMLElement, bad: boolean) => el.classList.toggle('bad', bad);
+  document.querySelectorAll<HTMLElement>('#form input, #form textarea').forEach((el) => el.addEventListener('input', () => el.classList.remove('bad')));
+
+  $('#form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const cart = getCart();
+    if (!cart.length) return;
+    // Honeypot: bots fill it, people never see it. Pretend success, send nothing.
+    if ((document.getElementById('hp') as HTMLInputElement).value) { location.href = '/success/?id=TOT-000000'; return; }
+
+    const name = $<HTMLInputElement>('#fn').value.trim();
+    const phone = normalizePhone($<HTMLInputElement>('#fp').value);
+    const address = $<HTMLTextAreaElement>('#fa').value.trim();
+    const sender = normalizePhone($<HTMLInputElement>('#fs').value);
+    const trx = $<HTMLInputElement>('#ft').value.trim().toUpperCase();
+    mark($('#fn'), !name); mark($('#fp'), !phone); mark($('#fa'), !address);
+    if (!name || !address) return;
+    if (!phone) { toast('bad_phone'); $('#fp').focus(); return; }
+    const paid = method !== 'cod';
+    mark($('#fs'), paid && !sender); mark($('#ft'), paid && !/^[A-Z0-9]{8,12}$/.test(trx));
+    if (paid && (!sender || !/^[A-Z0-9]{8,12}$/.test(trx))) { toast('bad_trx'); return; }
+
+    // One key per cart, so a double tap or retry creates one order (server enforces it).
+    let key = sessionStorage.getItem('tot_idem');
+    if (!key) { key = crypto.randomUUID(); sessionStorage.setItem('tot_idem', key); }
+
+    // Prices are for display only. The server recomputes everything from tea id + weight.
+    const payload = {
+      idempotency_key: key, name, phone, address, method,
+      sender_number: paid ? sender : null, trx_id: paid ? trx : null,
+      items: cart.map((c) => ({ tea_id: c.id, weight_g: data.weights[c.wi].g, qty: c.q })),
+    };
+    const tt = totals(cart);
+    const summary = cart.map((c) => ({ id: c.id, l: data.weights[c.wi].l, q: c.q }));
+    const btn = $<HTMLButtonElement>('#submit');
+    btn.disabled = true;
+    try {
+      let id = 'TOT-' + String(Date.now()).slice(-6);
+      if (data.api) {
+        const res = await fetch(data.api.replace(/\/$/, '') + '/api/orders', {
+          method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(payload),
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        id = (await res.json()).order_no || id;
+      }
+      try { localStorage.setItem('tot_last', JSON.stringify({ id, tot: tt.tot, items: summary, demo: !data.api })); } catch {}
+      sessionStorage.removeItem('tot_idem');
+      setCart([]);
+      location.href = '/success/?id=' + encodeURIComponent(id);
+    } catch {
+      btn.disabled = false;
+      toast('net');
+    }
+  });
+
+  render();
+</script>
