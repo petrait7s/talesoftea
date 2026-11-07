@@ -375,8 +375,8 @@ footer .logochip img { height: 52px; width: auto; border-radius: 0; margin: 0; }
 /* ---------- scene hero: photo or illustration behind floating text ---------- */
 .hero.scene { display: grid; align-items: end; min-height: 600px; background: #173f25; }
 .hero.scene::before { display: none; }
-.hero-bgwrap { position: absolute; inset: 0; z-index: 0; overflow: hidden; transition: transform 0.4s ease-out; }
-.hero-bg { position: absolute; inset: -4%; width: 108%; height: 108%; object-fit: cover; animation: kb 30s ease-in-out infinite alternate; will-change: transform; }
+.hero-bgwrap { position: absolute; inset: -3%; z-index: 0; overflow: hidden; transition: transform 0.4s ease-out; }
+.hero-bg { position: absolute; inset: -4%; width: 108%; height: 108%; object-fit: cover; will-change: transform; }
 @keyframes kb { from { transform: scale(1.02) translate3d(0, 0, 0); } to { transform: scale(1.12) translate3d(-1.5%, -1%, 0); } }
 .hero-shade { position: absolute; inset: 0; z-index: 1; pointer-events: none;
   background: linear-gradient(0deg, rgba(8, 28, 16, 0.78) 0%, rgba(8, 28, 16, 0.38) 45%, rgba(8, 28, 16, 0.12) 100%); }
@@ -399,3 +399,12 @@ footer .logochip img { height: 52px; width: auto; border-radius: 0; margin: 0; }
   .hero.scene .hero-txt { max-width: 760px; }
 }
 @media (prefers-reduced-motion: reduce) { .hero-bg { animation: none; } }
+
+.slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.9s ease; }
+.slide.on { opacity: 1; }
+.slide.on .hero-bg { animation: kb2 6s ease-out forwards; }
+@keyframes kb2 { from { transform: scale(1.03); } to { transform: scale(1.13) translate3d(-1.2%, -0.8%, 0); } }
+.hero-dots { position: absolute; z-index: 4; right: 22px; bottom: 20px; display: flex; gap: 7px; padding: 8px 12px; border-radius: 99px; background: rgba(8, 28, 16, 0.35); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.18); }
+.hero-dots button { width: 8px; height: 8px; border-radius: 99px; background: rgba(255, 255, 255, 0.55); transition: width 0.35s, background 0.35s; padding: 0; }
+.hero-dots button.on { width: 24px; background: var(--amber); }
+@media (prefers-reduced-motion: reduce) { .slide { transition: none; } .slide.on .hero-bg { animation: none; } }

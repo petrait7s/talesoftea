@@ -9,13 +9,26 @@ import Leaf from '../components/Leaf.astro';
 import { TEAS, price } from '../data/teas';
 const feat = TEAS.filter((t) => [1, 4, 3, 6].includes(t.id));
 const first = TEAS[0];
-// Drop a real photo at web/public/hero.(jpg|webp|jpeg) and it replaces the illustration.
-const photo = ['hero.webp', 'hero.jpg', 'hero.jpeg'].find((f) => fs.existsSync(path.join(process.cwd(), 'public', f)));
+// Real photos: put files in web/public/hero/ (any name, sorted A-Z) or one at web/public/hero.jpg.
+// With none, three illustrated garden scenes (morning, noon, golden hour) rotate instead.
+const pub = path.join(process.cwd(), 'public');
+const ok = /\.(jpe?g|webp|png|avif)$/i;
+const dir = fs.existsSync(path.join(pub, 'hero')) ? fs.readdirSync(path.join(pub, 'hero')).filter((f) => ok.test(f)).sort().map((f) => `/hero/${f}`) : [];
+const single = ['hero.webp', 'hero.jpg', 'hero.jpeg', 'hero.png'].filter((f) => fs.existsSync(path.join(pub, f))).map((f) => `/${f}`);
+const photos = [...dir, ...single];
+const slides = photos.length ? photos.map((src) => ({ src })) : [{ v: 0 }, { v: 1 }, { v: 2 }];
 ---
 <Base title="Tales of Tea | প্রতি কাপে একটা গল্প" active="home">
   <div class="zone"><div class="wrap">
     <section class="hero scene glass" id="hero">
-      <div class="hero-bgwrap">{photo ? <img class="hero-bg" src={`/${photo}`} alt="" fetchpriority="high" /> : <TeaGarden />}</div>
+      <div class="hero-bgwrap">
+        {slides.map((sl, i) => (
+          <div class={`slide ${i === 0 ? 'on' : ''}`}>
+            {sl.src ? <img class="hero-bg" src={sl.src} alt="" decoding="async" fetchpriority={i === 0 ? 'high' : 'auto'} loading={i === 0 ? 'eager' : 'lazy'} /> : <TeaGarden variant={sl.v} />}
+          </div>
+        ))}
+      </div>
+      {slides.length > 1 && <div class="hero-dots">{slides.map((_, i) => <button type="button" class={i === 0 ? 'on' : ''} data-slide={i} aria-label={`Slide ${i + 1}`}></button>)}</div>}
       <div class="hero-shade"></div>
       <div class="grain"></div>
       <div class="leaves" aria-hidden="true">

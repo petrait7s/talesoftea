@@ -46,6 +46,20 @@ if (hero) {
     });
     hero.addEventListener('pointerleave', () => { bgw.style.transform = ''; });
   }
+  const slides = [...hero.querySelectorAll<HTMLElement>('.slide')];
+  const dots = [...hero.querySelectorAll<HTMLElement>('[data-slide]')];
+  if (slides.length > 1) {
+    let cur = 0, timer = 0, seen = true;
+    const go = (n: number) => {
+      slides[cur].classList.remove('on'); dots[cur]?.classList.remove('on');
+      cur = (n + slides.length) % slides.length;
+      slides[cur].classList.add('on'); dots[cur]?.classList.add('on');
+    };
+    const start = () => { clearInterval(timer); if (!reduce) timer = window.setInterval(() => { if (seen && !document.hidden) go(cur + 1); }, 2000); };
+    dots.forEach((d) => d.addEventListener('click', () => { go(Number(d.dataset.slide)); start(); }));
+    new IntersectionObserver((e) => { seen = e[0].isIntersecting; }).observe(hero);
+    start();
+  }
   const cv = document.getElementById('steam') as HTMLCanvasElement | null;
   const cup = hero.querySelector<HTMLElement>('.cupwrap');
   if (cv && cup) startSteam(cv, cup);
