@@ -2,31 +2,33 @@
 import Base from '../layouts/Base.astro';
 import T from '../components/T.astro';
 import TeaCard from '../components/TeaCard.astro';
-import Cup from '../components/Cup.astro';
+import TeaGarden from '../components/TeaGarden.astro';
+import fs from 'node:fs';
+import path from 'node:path';
 import Leaf from '../components/Leaf.astro';
 import { TEAS, price } from '../data/teas';
 const feat = TEAS.filter((t) => [1, 4, 3, 6].includes(t.id));
 const first = TEAS[0];
+// Drop a real photo at web/public/hero.(jpg|webp|jpeg) and it replaces the illustration.
+const photo = ['hero.webp', 'hero.jpg', 'hero.jpeg'].find((f) => fs.existsSync(path.join(process.cwd(), 'public', f)));
 ---
 <Base title="Tales of Tea | প্রতি কাপে একটা গল্প" active="home">
   <div class="zone"><div class="wrap">
-    <section class="hero glass" id="hero">
+    <section class="hero scene glass" id="hero">
+      <div class="hero-bgwrap">{photo ? <img class="hero-bg" src={`/${photo}`} alt="" fetchpriority="high" /> : <TeaGarden />}</div>
+      <div class="hero-shade"></div>
       <div class="grain"></div>
+      <div class="leaves" aria-hidden="true">
+        <div class="fl a"><Leaf size={74} rot={-24} /></div>
+        <div class="fl b"><Leaf size={54} rot={32} c1="#ffd98a" c2="#f2a93b" /></div>
+        <div class="fl c"><Leaf size={92} rot={14} c1="#bfe39a" c2="#6fae52" /></div>
+        <div class="fl d"><Leaf size={40} rot={-48} /></div>
+      </div>
       <div class="hero-txt">
         <div class="chips"><span class="chip"><T bn="ক্যাশ অন ডেলিভারি" en="Cash on Delivery" /></span><span class="chip">bKash</span><span class="chip">Nagad</span></div>
         <h1><T html bn="প্রতি কাপে <em>একটা গল্প</em>" en="A story <em>in every cup</em>" /></h1>
         <p><T bn="ঘরে বসে ৮ রকমের চা অর্ডার করুন। ১০০ গ্রাম থেকে ১ কেজি। পেমেন্ট দরজায়।" en="Order 8 kinds of tea from home. 100g to 1kg. Pay at your door." /></p>
         <div class="cta"><a class="btn amber" href="/shop/"><T bn="চা কিনুন" en="Shop teas" /></a><a class="btn white" href="/story/"><T bn="আমাদের গল্প" en="Our story" /></a></div>
-      </div>
-      <div class="stage" aria-hidden="true">
-        <div class="tilt"><div class="idle">
-          <canvas id="steam"></canvas>
-          <div class="cupwrap"><Cup size={340} /></div>
-          <div class="fl a"><Leaf size={74} rot={-24} /></div>
-          <div class="fl b"><Leaf size={54} rot={32} c1="#ffd98a" c2="#f2a93b" /></div>
-          <div class="fl c"><Leaf size={92} rot={14} c1="#bfe39a" c2="#6fae52" /></div>
-          <div class="fl d"><Leaf size={40} rot={-48} /></div>
-        </div></div>
       </div>
     </section>
 

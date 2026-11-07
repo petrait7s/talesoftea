@@ -371,3 +371,31 @@ footer .logochip img { height: 52px; width: auto; border-radius: 0; margin: 0; }
 @media (min-width: 860px) { .zone { padding-bottom: 54px; } .goldband h2 { font-size: 2.4rem; } }
 
 .top, .tabs, .buybar { --glass: rgba(251, 246, 236, 0.94); --edge: rgba(255, 255, 255, 0.95); }
+
+/* ---------- scene hero: photo or illustration behind floating text ---------- */
+.hero.scene { display: grid; align-items: end; min-height: 600px; background: #173f25; }
+.hero.scene::before { display: none; }
+.hero-bgwrap { position: absolute; inset: 0; z-index: 0; overflow: hidden; transition: transform 0.4s ease-out; }
+.hero-bg { position: absolute; inset: -4%; width: 108%; height: 108%; object-fit: cover; animation: kb 30s ease-in-out infinite alternate; will-change: transform; }
+@keyframes kb { from { transform: scale(1.02) translate3d(0, 0, 0); } to { transform: scale(1.12) translate3d(-1.5%, -1%, 0); } }
+.hero-shade { position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(0deg, rgba(8, 28, 16, 0.78) 0%, rgba(8, 28, 16, 0.38) 45%, rgba(8, 28, 16, 0.12) 100%); }
+.hero.scene .grain { z-index: 2; }
+.hero.scene .hero-txt { z-index: 3; padding: 40px 22px 34px; }
+.hero.scene h1 { text-shadow: 0 4px 34px rgba(0, 0, 0, 0.5); }
+.hero.scene p { color: rgba(255, 255, 255, 0.94); text-shadow: 0 2px 16px rgba(0, 0, 0, 0.5); }
+.hero.scene .chip { background: rgba(255, 255, 255, 0.16); backdrop-filter: blur(10px); }
+.leaves { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.leaves .fl { left: auto; right: auto; top: auto; bottom: auto; }
+.leaves .fl.a { left: 68%; top: 10%; transform: none; }
+.leaves .fl.b { right: 6%; left: auto; top: 30%; transform: none; }
+.leaves .fl.c { right: 18%; top: 56%; transform: none; }
+.leaves .fl.d { left: 60%; top: 42%; transform: none; opacity: 0.8; }
+@media (min-width: 860px) {
+  .hero.scene { min-height: 640px; align-items: center; }
+  .hero-shade { background: linear-gradient(90deg, rgba(8, 28, 16, 0.78) 0%, rgba(8, 28, 16, 0.42) 48%, rgba(8, 28, 16, 0.06) 100%); }
+  .hero.scene .hero-txt { padding: 56px 56px; max-width: 700px; }
+  .hero.scene h1 { font-size: 3.5rem; }
+  .hero.scene .hero-txt { max-width: 760px; }
+}
+@media (prefers-reduced-motion: reduce) { .hero-bg { animation: none; } }

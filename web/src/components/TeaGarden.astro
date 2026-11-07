@@ -1,0 +1,42 @@
+---
+// Illustrated tea-garden scene: stand-in until a real photo (public/hero.jpg) is added.
+const W = 1600, H = 900;
+const rows = Array.from({ length: 12 }, (_, i) => {
+  const t = i / 11;
+  const y = 440 + t * t * 400 + t * 50;
+  const r = 13 + t * 52;
+  const step = r * 1.75;
+  const n = Math.ceil((W + 200) / step) + 1;
+  let d = `M-100 ${y + r}`;
+  for (let k = 0; k < n; k++) d += ` a${r} ${r * 0.95} 0 0 1 ${step} 0`;
+  const top = d;
+  d += ` V${H} H-100 Z`;
+  const shade = Math.round(120 - t * 70), g = Math.round(168 - t * 92), b = Math.round(96 - t * 50);
+  return { d, top, fill: `rgb(${Math.round(shade * 0.55)} ${g} ${b})`, o: 0.55 + t * 0.45, r };
+});
+---
+<svg class="hero-bg" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f9e6b4" /><stop offset=".55" stop-color="#cfe5bd" /><stop offset="1" stop-color="#9fc9a0" /></linearGradient>
+    <radialGradient id="sun" cx="72%" cy="22%" r="42%"><stop offset="0" stop-color="#fff6d6" stop-opacity=".95" /><stop offset=".4" stop-color="#ffe6a3" stop-opacity=".45" /><stop offset="1" stop-color="#ffe6a3" stop-opacity="0" /></radialGradient>
+    <linearGradient id="mist" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e9f3dc" stop-opacity="0" /><stop offset="1" stop-color="#e9f3dc" stop-opacity=".7" /></linearGradient>
+    <linearGradient id="ray" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3c4" stop-opacity=".42" /><stop offset="1" stop-color="#fff3c4" stop-opacity="0" /></linearGradient>
+  </defs>
+  <rect width={W} height={H} fill="url(#sky)" />
+  <rect width={W} height={H} fill="url(#sun)" />
+  <path d="M0 470 C180 380 330 440 520 390 C720 340 860 430 1060 380 C1260 330 1420 420 1600 360 V900 H0Z" fill="#86b28a" opacity=".55" />
+  <path d="M0 500 C220 430 380 480 600 440 C820 400 980 490 1200 440 C1380 400 1500 470 1600 430 V900 H0Z" fill="#5f9a6a" opacity=".7" />
+  <rect y="380" width={W} height="220" fill="url(#mist)" />
+  <g>
+    <polygon points="1030,0 1180,0 880,700 560,700" fill="url(#ray)" />
+    <polygon points="1250,0 1330,0 1180,700 1000,700" fill="url(#ray)" opacity=".7" />
+    <polygon points="820,0 880,0 520,700 360,700" fill="url(#ray)" opacity=".5" />
+  </g>
+  {rows.map((r) => (
+    <g opacity={r.o.toFixed(2)}>
+      <path d={r.d} fill={r.fill} />
+      <path d={r.top} fill="none" stroke="#d9f0b0" stroke-opacity=".22" stroke-width={Math.max(1.5, r.r * 0.09)} />
+    </g>
+  ))}
+  <rect y="560" width={W} height="340" fill="url(#mist)" opacity=".28" />
+</svg>
