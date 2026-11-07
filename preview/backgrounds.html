@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tales of Tea | Background options</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Montserrat',-apple-system,system-ui,sans-serif;background:#0b0b0b;color:#fff;padding:18px 12px 60px}
+h1{text-align:center;font-size:1.4rem;margin:8px 0 4px}
+.lead{text-align:center;opacity:.65;font-size:.9rem;margin-bottom:22px}
+.opt{max-width:1100px;margin:0 auto 26px}
+.opt>h2{font-size:1rem;margin:0 6px 8px}
+.opt>h2 small{opacity:.6;font-weight:400;margin-left:8px}
+.st{position:relative;overflow:hidden;border-radius:30px;padding:16px;background:var(--bg);color:var(--ink);isolation:isolate}
+.b{position:absolute;border-radius:50%;filter:blur(64px);z-index:-1}
+.b1{width:300px;height:300px;background:var(--b1);top:-90px;left:-50px}
+.b2{width:300px;height:300px;background:var(--b2);bottom:-100px;right:-40px}
+.g{background:var(--glass);backdrop-filter:blur(16px) saturate(160%);border:1px solid var(--edge);border-radius:24px;box-shadow:0 10px 30px var(--sh),inset 0 1px 0 var(--hi)}
+.nav{display:flex;align-items:center;gap:14px;padding:10px 16px;border-radius:99px;margin-bottom:12px;font-size:.85rem}
+.nav b{flex:1}.nav i{font-style:normal;background:var(--p);color:var(--pt);padding:6px 14px;border-radius:99px;font-weight:600}
+.row{display:grid;grid-template-columns:1fr;gap:10px}
+.hero{padding:26px 20px;min-height:170px;display:flex;flex-direction:column;justify-content:flex-end}
+.hero h3{font-size:1.7rem;letter-spacing:-.02em;line-height:1.1}
+.hero h3 em{font-style:normal;color:var(--a)}
+.hero p{opacity:.75;font-size:.85rem;margin:6px 0 12px}
+.btn{align-self:flex-start;background:var(--a);color:var(--at);font-weight:600;padding:9px 18px;border-radius:99px;font-size:.85rem}
+.c{padding:16px;font-size:.85rem}.c b{display:block;font-size:1rem}.c span{opacity:.7}
+.price{color:var(--p);font-weight:700;margin-top:6px}
+.sw{display:flex;gap:6px;margin-top:12px}
+.sw div{flex:1;border-radius:12px;padding:8px 4px;font-size:.62rem;font-weight:600;text-align:center;box-shadow:inset 0 0 0 1px rgba(128,128,128,.25)}
+@media(min-width:820px){.row{grid-template-columns:1.5fr 1fr 1fr}.st{padding:24px}}
+/* 1 deep forest */
+.o1{--bg:linear-gradient(160deg,#0C2216,#143823 55%,#1D4A2E);--ink:#EAF4E6;--p:#E3B95F;--pt:#10261a;--a:#E3B95F;--at:#2a1d05;--b1:#2f8a52;--b2:#c79a3e;--glass:rgba(255,255,255,.07);--edge:rgba(255,255,255,.16);--sh:rgba(0,0,0,.35);--hi:rgba(255,255,255,.18)}
+/* 2 golden hour */
+.o2{--bg:linear-gradient(160deg,#FBE6B0,#F2C46A 55%,#E0A24A);--ink:#3A2410;--p:#2F6B3A;--pt:#fff;--a:#2F6B3A;--at:#fff;--b1:#fff3cf;--b2:#d98a2e;--glass:rgba(255,248,230,.5);--edge:rgba(255,255,255,.7);--sh:rgba(120,70,10,.2);--hi:rgba(255,255,255,.7)}
+/* 3 soft matcha */
+.o3{--bg:linear-gradient(160deg,#CFE6B8,#A9D18B 55%,#7DB36A);--ink:#16301c;--p:#1f5a2d;--pt:#fff;--a:#F2A93B;--at:#3a2410;--b1:#eaf7d6;--b2:#4e9a5b;--glass:rgba(255,255,255,.4);--edge:rgba(255,255,255,.65);--sh:rgba(30,80,40,.2);--hi:rgba(255,255,255,.6)}
+/* 4 chai brown */
+.o4{--bg:linear-gradient(160deg,#25150C,#3B2314 55%,#54301A);--ink:#F7EAD6;--p:#F2A93B;--pt:#2a1608;--a:#F2A93B;--at:#2a1608;--b1:#8a4b1f;--b2:#c9801f;--glass:rgba(255,235,210,.08);--edge:rgba(255,235,210,.18);--sh:rgba(0,0,0,.4);--hi:rgba(255,235,210,.2)}
+/* 5 flow */
+.o5{--bg:linear-gradient(180deg,#FDF8EC 0%,#EAF4E6 28%,#1D4A2E 62%,#E9B75C 100%);--ink:#1f2a1f;--p:#2F6B3A;--pt:#fff;--a:#F2A93B;--at:#3a2410;--b1:#9ED36A;--b2:#F2A93B;--glass:rgba(255,255,255,.55);--edge:rgba(255,255,255,.75);--sh:rgba(30,60,30,.2);--hi:rgba(255,255,255,.7)}
+.o5 .row:last-of-type .g{color:#fff;--glass:rgba(255,255,255,.1);--edge:rgba(255,255,255,.22)}
+</style>
+</head>
+<body>
+<h1>Background options</h1>
+<p class="lead">Cream/white chhara kon colour background-e bosano jay.</p>
+
+<section class="opt"><h2>1 · Deep Forest + Gold <small>dark green, sona-r accent, sobcheye premium</small></h2>
+<div class="st o1"><i class="b b1"></i><i class="b b2"></i>
+<div class="g nav"><b>Tales of Tea</b><span>Shop</span><span>Story</span><i>Cart</i></div>
+<div class="row"><div class="g hero"><h3>প্রতি কাপে <em>একটা গল্প</em></h3><p>Order 8 kinds of tea from home.</p><span class="btn">চা কিনুন</span></div>
+<div class="g c"><b>অরেঞ্জ পিকো</b><span>ব্ল্যাক টি</span><div class="price">৳380</div></div><div class="g c"><b>মশলা চা</b><span>মশলা</span><div class="price">৳420</div></div></div>
+<div class="sw"><div style="background:#0C2216;color:#fff">Night<br>#0C2216</div><div style="background:#1D4A2E;color:#fff">Forest<br>#1D4A2E</div><div style="background:#2f8a52;color:#fff">Leaf<br>#2F8A52</div><div style="background:#E3B95F;color:#2a1d05">Gold<br>#E3B95F</div><div style="background:#EAF4E6;color:#0C2216">Text<br>#EAF4E6</div></div></div></section>
+
+<section class="opt"><h2>2 · Golden Hour <small>garom, sona-r aalo, cha-r liquor-er moto</small></h2>
+<div class="st o2"><i class="b b1"></i><i class="b b2"></i>
+<div class="g nav"><b>Tales of Tea</b><span>Shop</span><span>Story</span><i>Cart</i></div>
+<div class="row"><div class="g hero"><h3>প্রতি কাপে <em>একটা গল্প</em></h3><p>Order 8 kinds of tea from home.</p><span class="btn">চা কিনুন</span></div>
+<div class="g c"><b>অরেঞ্জ পিকো</b><span>ব্ল্যাক টি</span><div class="price">৳380</div></div><div class="g c"><b>মশলা চা</b><span>মশলা</span><div class="price">৳420</div></div></div>
+<div class="sw"><div style="background:#FBE6B0">Honey<br>#FBE6B0</div><div style="background:#F2C46A">Gold<br>#F2C46A</div><div style="background:#E0A24A">Amber<br>#E0A24A</div><div style="background:#2F6B3A;color:#fff">Green<br>#2F6B3A</div><div style="background:#3A2410;color:#fff">Ink<br>#3A2410</div></div></div></section>
+
+<section class="opt"><h2>3 · Soft Matcha <small>sobuj, fresh, halka</small></h2>
+<div class="st o3"><i class="b b1"></i><i class="b b2"></i>
+<div class="g nav"><b>Tales of Tea</b><span>Shop</span><span>Story</span><i>Cart</i></div>
+<div class="row"><div class="g hero"><h3>প্রতি কাপে <em>একটা গল্প</em></h3><p>Order 8 kinds of tea from home.</p><span class="btn">চা কিনুন</span></div>
+<div class="g c"><b>অরেঞ্জ পিকো</b><span>ব্ল্যাক টি</span><div class="price">৳380</div></div><div class="g c"><b>মশলা চা</b><span>মশলা</span><div class="price">৳420</div></div></div>
+<div class="sw"><div style="background:#CFE6B8">Mist<br>#CFE6B8</div><div style="background:#A9D18B">Matcha<br>#A9D18B</div><div style="background:#7DB36A">Leaf<br>#7DB36A</div><div style="background:#1f5a2d;color:#fff">Deep<br>#1F5A2D</div><div style="background:#F2A93B">Amber<br>#F2A93B</div></div></div></section>
+
+<section class="opt"><h2>4 · Chai Brown <small>dark brown, cosy, amber glow</small></h2>
+<div class="st o4"><i class="b b1"></i><i class="b b2"></i>
+<div class="g nav"><b>Tales of Tea</b><span>Shop</span><span>Story</span><i>Cart</i></div>
+<div class="row"><div class="g hero"><h3>প্রতি কাপে <em>একটা গল্প</em></h3><p>Order 8 kinds of tea from home.</p><span class="btn">চা কিনুন</span></div>
+<div class="g c"><b>অরেঞ্জ পিকো</b><span>ব্ল্যাক টি</span><div class="price">৳380</div></div><div class="g c"><b>মশলা চা</b><span>মশলা</span><div class="price">৳420</div></div></div>
+<div class="sw"><div style="background:#25150C;color:#fff">Espresso<br>#25150C</div><div style="background:#3B2314;color:#fff">Chai<br>#3B2314</div><div style="background:#54301A;color:#fff">Cocoa<br>#54301A</div><div style="background:#F2A93B;color:#2a1608">Amber<br>#F2A93B</div><div style="background:#F7EAD6;color:#25150C">Text<br>#F7EAD6</div></div></div></section>
+
+<section class="opt"><h2>5 · Flow <small>scroll korle cream, green, deep forest, gold-e bodlay (sob page-e ek-ei background na)</small></h2>
+<div class="st o5" style="min-height:460px"><i class="b b1"></i><i class="b b2"></i>
+<div class="g nav"><b>Tales of Tea</b><span>Shop</span><span>Story</span><i>Cart</i></div>
+<div class="row"><div class="g hero"><h3>প্রতি কাপে <em>একটা গল্প</em></h3><p>Order 8 kinds of tea from home.</p><span class="btn">চা কিনুন</span></div>
+<div class="g c"><b>অরেঞ্জ পিকো</b><span>ব্ল্যাক টি</span><div class="price">৳380</div></div><div class="g c"><b>মশলা চা</b><span>মশলা</span><div class="price">৳420</div></div></div>
+<div style="height:120px"></div>
+<div class="row"><div class="g c"><b>Pay your way</b><span>COD, bKash, Nagad</span></div><div class="g c"><b>Buy by weight</b><span>100g to 1kg</span></div><div class="g c"><b>Confirmed by phone</b><span>We call you</span></div></div>
+<div class="sw"><div style="background:#FDF8EC">Cream<br>#FDF8EC</div><div style="background:#EAF4E6">Mist<br>#EAF4E6</div><div style="background:#1D4A2E;color:#fff">Forest<br>#1D4A2E</div><div style="background:#E9B75C;color:#2a1d05">Gold<br>#E9B75C</div></div></div></section>
+</body>
+</html>
