@@ -1,0 +1,35 @@
+---
+// Procedural leaf-pile art per tea: layered two-tone leaves, soft shadows, vignette.
+const { t, big = false } = Astro.props;
+const uid = `${big ? 'b' : 's'}${t.id}`;
+const hex = (h: string) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+const mix = (a: string, b: string, k: number) => '#' + hex(a).map((v, i) => Math.round(v + (hex(b)[i] - v) * k).toString(16).padStart(2, '0')).join('');
+const rng = (seed: number) => { let a = (seed * 2654435761) >>> 0; return () => { a = (a + 0x6d2b79f5) | 0; let x = Math.imul(a ^ (a >>> 15), 1 | a); x = (x + Math.imul(x ^ (x >>> 7), 61 | x)) ^ x; return ((x ^ (x >>> 14)) >>> 0) / 4294967296; }; };
+const r = rng(t.id * 97 + (big ? 13 : 1));
+const n = big ? 17 : 10;
+const leaves = Array.from({ length: n }, () => ({ x: 40 + r() * 120, y: 36 + r() * 88, rot: (r() - 0.5) * 220, s: 0.5 + r() * 0.75, d: (r() * 5).toFixed(2), a: 0.7 + r() * 0.3 }));
+const bgIn = mix(t.c[0], t.c[1], 0.45), bgOut = mix(t.c[0], '#000000', 0.38);
+const lL = mix(t.c[1], '#ffffff', 0.6), lR = mix(t.c[1], '#ffffff', 0.22);
+---
+<svg viewBox="0 0 200 160" preserveAspectRatio="xMidYMid slice" class={`art ${big ? 'big' : ''}`} aria-hidden="true">
+  <defs>
+    <radialGradient id={`bg-${uid}`} cx="50%" cy="42%" r="78%"><stop offset="0" stop-color={bgIn} /><stop offset="1" stop-color={bgOut} /></radialGradient>
+    <radialGradient id={`vg-${uid}`} cx="50%" cy="50%" r="70%"><stop offset=".55" stop-color="#000" stop-opacity="0" /><stop offset="1" stop-color="#000" stop-opacity=".28" /></radialGradient>
+    <radialGradient id={`hl-${uid}`} cx="25%" cy="15%" r="60%"><stop offset="0" stop-color="#fff" stop-opacity=".32" /><stop offset="1" stop-color="#fff" stop-opacity="0" /></radialGradient>
+    <linearGradient id={`l-${uid}`} x1="0" x2="1"><stop offset="0" stop-color={lL} /><stop offset="1" stop-color={lR} /></linearGradient>
+  </defs>
+  <rect width="200" height="160" fill={`url(#bg-${uid})`} />
+  {leaves.map((l) => (
+    <g transform={`translate(${l.x.toFixed(1)} ${l.y.toFixed(1)}) rotate(${l.rot.toFixed(0)}) scale(${(l.s * (big ? 0.36 : 0.4)).toFixed(2)})`} opacity={l.a.toFixed(2)}>
+      <g class="lf" style={`animation-delay:-${l.d}s`}>
+        <path d="M3 54 C-31 29 -37 -16 3 -46 C43 -16 37 29 3 54Z" fill="#000" opacity=".2" />
+        <path d="M0 50 C-34 25 -40 -20 0 -50Z" fill={lL} />
+        <path d="M0 -50 C40 -20 34 25 0 50Z" fill={lR} />
+        <path d="M0 50 L0 -44" stroke={mix(t.c[0], '#000', 0.2)} stroke-opacity=".5" stroke-width="1.8" stroke-linecap="round" />
+        <path d="M0 28 L-15 14 M0 10 L-17 -6 M0 -8 L-13 -22 M0 22 L15 8 M0 4 L17 -10 M0 -14 L12 -26" stroke={mix(t.c[0], '#000', 0.2)} stroke-opacity=".28" stroke-width="1.2" stroke-linecap="round" />
+      </g>
+    </g>
+  ))}
+  <rect width="200" height="160" fill={`url(#hl-${uid})`} />
+  <rect width="200" height="160" fill={`url(#vg-${uid})`} />
+</svg>

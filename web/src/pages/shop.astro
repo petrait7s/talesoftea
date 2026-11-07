@@ -14,7 +14,7 @@ const types = ['all', 'black', 'green', 'herbal', 'blend'] as const;
       </div>
       <div class="toolbar"><span><b id="count">{TEAS.length}</b> <T bn="টি চা" en="teas" /></span>
         <label style="margin:0;display:flex;gap:8px;align-items:center"><T bn="সাজান" en="Sort" />
-          <select id="sortSel"><option value="def">Default</option><option value="lo">৳ ↑</option><option value="hi">৳ ↓</option><option value="rate">★</option></select></label></div>
+          <select id="sortSel"><option value="def">Default</option><option value="lo">৳ ↑</option><option value="hi">৳ ↓</option></select></label></div>
       <div class="grid" id="grid">{TEAS.map((t) => <TeaCard t={t} />)}</div>
     </section>
   </div>
@@ -28,7 +28,6 @@ const types = ['all', 'black', 'green', 'herbal', 'blend'] as const;
     const list = cards.slice();
     if (sort === 'lo') list.sort((a, b) => +a.dataset.base! - +b.dataset.base!);
     if (sort === 'hi') list.sort((a, b) => +b.dataset.base! - +a.dataset.base!);
-    if (sort === 'rate') list.sort((a, b) => +b.dataset.rate! - +a.dataset.rate!);
     let n = 0;
     list.forEach((c) => { const show = ty === 'all' || c.dataset.type === ty; c.style.display = show ? '' : 'none'; if (show) n++; grid.appendChild(c); });
     document.getElementById('count')!.textContent = String(n);

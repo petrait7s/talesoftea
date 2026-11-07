@@ -1,4 +1,11 @@
 ---
-const { color = '#2F6B3A', size = 64 } = Astro.props;
+// Single two-tone leaf for floating decoration.
+const { size = 64, c1 = '#cfeaa6', c2 = '#8fc365', rot = 0 } = Astro.props;
 ---
-<svg width={size} height={size} viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="M10 54C8 28 28 8 56 8c0 28-18 48-46 46z" fill="#fff" opacity=".92"/><path d="M12 52C26 38 38 26 52 12" stroke={color} stroke-width="3" stroke-linecap="round"/></svg>
+<svg width={size} height={size} viewBox="-50 -56 100 112" style={`transform:rotate(${rot}deg)`} aria-hidden="true">
+  <path d="M3 54 C-31 29 -37 -16 3 -46 C43 -16 37 29 3 54Z" fill="#000" opacity=".18" />
+  <path d="M0 50 C-34 25 -40 -20 0 -50Z" fill={c1} />
+  <path d="M0 -50 C40 -20 34 25 0 50Z" fill={c2} />
+  <path d="M0 50 L0 -44" stroke="#1d4d29" stroke-opacity=".45" stroke-width="1.8" stroke-linecap="round" />
+  <path d="M0 28 L-15 14 M0 10 L-17 -6 M0 -8 L-13 -22 M0 22 L15 8 M0 4 L17 -10 M0 -14 L12 -26" stroke="#1d4d29" stroke-opacity=".25" stroke-width="1.2" stroke-linecap="round" />
+</svg>

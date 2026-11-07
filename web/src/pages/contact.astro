@@ -3,8 +3,8 @@ import Base from '../layouts/Base.astro';
 import T from '../components/T.astro';
 const faq = [
   { q: { bn: 'কীভাবে পেমেন্ট করব?', en: 'How do I pay?' }, a: { bn: 'ক্যাশ অন ডেলিভারি, অথবা বিকাশ/নগদে আগে পাঠিয়ে TrxID দিন।', en: 'Cash on delivery, or send via bKash/Nagad first and enter the TrxID.' } },
-  { q: { bn: 'কত দিনে পাব?', en: 'How long does delivery take?' }, a: { bn: 'ঢাকায় ১-২ দিন, বাইরে ২-৪ দিন।', en: '1-2 days in Dhaka, 2-4 days elsewhere.' } },
-  { q: { bn: 'ফেরত নেওয়া হয়?', en: 'Can I return?' }, a: { bn: 'প্যাকেটে সমস্যা থাকলে ডেলিভারির সময়ই জানান।', en: 'Tell us at delivery if the pack has a problem.' } },
+  { q: { bn: 'কত ওজনে পাব?', en: 'Which weights are available?' }, a: { bn: 'প্রতিটি চা ১০০g, ২৫০g, ৫০০g ও ১kg প্যাকে।', en: 'Every tea comes in 100g, 250g, 500g and 1kg packs.' } },
+  { q: { bn: 'ডেলিভারি কবে হবে?', en: 'When will it arrive?' }, a: { bn: 'অর্ডার কনফার্মের সময় ফোনে ডেলিভারির সময় জানানো হবে।', en: 'We tell you the delivery time when we call to confirm.' } },
 ];
 ---
 <Base title="যোগাযোগ | Tales of Tea" active="contact">
@@ -12,9 +12,9 @@ const faq = [
     <div class="pagehead"><h1><T bn="যোগাযোগ" en="Contact" /></h1><p><T bn="যেকোনো প্রশ্নে লিখুন বা ফোন করুন।" en="Write or call us with any question." /></p></div>
     <section class="sec cols2" style="padding-top:20px">
       <div>
-        <div class="ci"><i>📞</i><div><b><T bn="ফোন" en="Phone" /></b><br />01XXX-XXXXXX</div></div>
-        <div class="ci"><i>💬</i><div><b>Facebook</b><br />facebook.com/talesoftea</div></div>
-        <div class="ci"><i>📍</i><div><b><T bn="ঠিকানা" en="Address" /></b><br /><T bn="আপনার ঠিকানা এখানে বসবে" en="Your address goes here" /></div></div>
+        <div class="ci"><i><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/></svg></i><div><b><T bn="ফোন" en="Phone" /></b><br />01XXX-XXXXXX</div></div>
+        <div class="ci"><i><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg></i><div><b>Facebook</b><br />facebook.com/talesoftea</div></div>
+        <div class="ci"><i><svg viewBox="0 0 24 24"><path d="M12 21s7-6 7-11a7 7 0 10-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></i><div><b><T bn="ঠিকানা" en="Address" /></b><br /><T bn="আপনার ঠিকানা এখানে বসবে" en="Your address goes here" /></div></div>
         <form class="panel glass" id="cform" style="margin-top:14px">
           <label><T bn="নাম" en="Name" /></label><input required />
           <label><T bn="আপনার বার্তা" en="Your message" /></label><textarea required rows="4"></textarea>

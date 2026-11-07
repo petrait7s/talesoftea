@@ -1,25 +1,19 @@
 ---
 import Base from '../layouts/Base.astro';
 import T from '../components/T.astro';
-const steps = [
-  { t: { bn: '১. বাগান', en: '1. The garden' }, d: { bn: 'পাহাড়ি বাগানে সকালের কচি পাতা হাতে তোলা হয়।', en: 'Young leaves are hand-picked on hill gardens each morning.' } },
-  { t: { bn: '২. প্রক্রিয়া', en: '2. Processing' }, d: { bn: 'শুকিয়ে, মাড়াই করে, বাছাই করে গ্রেড ভাগ করা হয়।', en: 'Withered, rolled and graded by size and quality.' } },
-  { t: { bn: '৩. ব্লেন্ড', en: '3. Blending' }, d: { bn: 'নিজস্ব ব্লেন্ডে স্বাদ ঠিক করা হয়, প্রতিবার একই মান।', en: 'Our own blends keep the taste the same every time.' } },
-  { t: { bn: '৪. আপনার দরজায়', en: '4. Your door' }, d: { bn: 'তাজা প্যাক করে সরাসরি পাঠানো হয়।', en: 'Packed fresh and sent straight to you.' } },
-];
 ---
 <Base title="আমাদের গল্প | Tales of Tea" active="story">
   <div class="wrap">
-    <div class="sbanner"><div class="eyebrow" style="color:var(--amber)">Tales of Tea</div><h1><T bn="আমাদের গল্প" en="Our story" /></h1><p><T bn="এক কাপ ভালো চা কোথা থেকে আসে, সেটা জানাই আমাদের শুরু।" en="Knowing where a good cup comes from is where we began." /></p></div>
-    <section class="sec"><div class="tl">{steps.map((s) => <div class="it glass"><b><T bn={s.t.bn} en={s.t.en} /></b><p><T bn={s.d.bn} en={s.d.en} /></p></div>)}</div></section>
-    <section class="sec"><div class="center"><h2><T bn="আমাদের কথা" en="What we stand for" /></h2></div><br />
+    <div class="sbanner"><div class="eyebrow" style="color:var(--amber)">Tales of Tea</div><h1><T bn="আমাদের গল্প" en="Our story" /></h1><p><T bn="প্রতি কাপ চায়ের পেছনে একটা গল্প থাকে। আমরা সেই গল্প আপনার কাছে পৌঁছে দিই।" en="Behind every cup of tea there is a story. We bring it to your door." /></p></div>
+    <section class="sec">
+      <div class="center"><h2><T bn="আমরা যা কথা দিই" en="What we promise" /></h2></div><br />
       <div class="cards3">
-        <div class="feat glass"><i>🤝</i><h3><T bn="সততা" en="Honesty" /></h3><p><T bn="ওজন ও মান নিয়ে কোনো ফাঁকি নয়।" en="No tricks on weight or quality." /></p></div>
-        <div class="feat glass"><i>🍃</i><h3><T bn="তাজা" en="Fresh" /></h3><p><T bn="অর্ডার আসলে প্যাক হয়।" en="Packed when you order." /></p></div>
-        <div class="feat glass"><i>🔍</i><h3><T bn="স্বচ্ছতা" en="Clarity" /></h3><p><T bn="দাম ও হিসাব পরিষ্কার।" en="Clear prices and accounts." /></p></div>
+        <div class="feat glass"><span class="no">01</span><h3><T bn="ঠিক ওজন" en="Right weight" /></h3><p><T bn="যে ওজনের অর্ডার, সেই ওজনের চা।" en="The weight you order is the weight you get." /></p></div>
+        <div class="feat glass"><span class="no">02</span><h3><T bn="পরিষ্কার দাম" en="Clear price" /></h3><p><T bn="কার্টেই মোট দাম দেখুন, লুকানো খরচ নেই।" en="See the full price in your cart. No hidden costs." /></p></div>
+        <div class="feat glass"><span class="no">03</span><h3><T bn="দরজায় পেমেন্ট" en="Pay at the door" /></h3><p><T bn="চা হাতে পেয়ে টাকা দিন, অথবা বিকাশ/নগদে আগেই।" en="Pay when the tea arrives, or ahead by bKash/Nagad." /></p></div>
       </div>
-      <p class="note center" style="margin-top:20px"><T bn="প্রতিষ্ঠাতার কথা ও ছবি এখানে বসবে (আপনার কাছ থেকে নেব)।" en="Founder's note and photo go here (to come from you)." /></p>
     </section>
-    <section class="sec center"><a class="btn green" href="/shop/"><T bn="চা কিনুন" en="Shop teas" /></a></section>
+    <section class="sec"><div class="ph"><T bn="প্রতিষ্ঠাতার কথা ও ছবি এখানে বসবে।" en="Founder's note and photo will go here." /></div></section>
+    <section class="sec center" style="padding-top:0"><a class="btn green" href="/shop/"><T bn="চা কিনুন" en="Shop teas" /></a></section>
   </div>
 </Base>

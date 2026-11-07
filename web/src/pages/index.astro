@@ -3,49 +3,53 @@ import Base from '../layouts/Base.astro';
 import T from '../components/T.astro';
 import TeaCard from '../components/TeaCard.astro';
 import Cup from '../components/Cup.astro';
-import { TEAS, REVIEWS } from '../data/teas';
+import Leaf from '../components/Leaf.astro';
+import { TEAS, price } from '../data/teas';
 const feat = TEAS.filter((t) => [1, 4, 3, 6].includes(t.id));
+const first = TEAS[0];
 ---
 <Base title="Tales of Tea | প্রতি কাপে একটা গল্প" active="home">
   <div class="wrap">
-    <div class="bento">
-      <section class="tile hero glass">
-        <div class="cup"><Cup size={260} /></div>
-        <div>
-          <div class="chips"><span class="chip"><T bn="ক্যাশ অন ডেলিভারি" en="Cash on Delivery" /></span><span class="chip">bKash</span><span class="chip">Nagad</span></div>
-          <h1><T html bn="প্রতি কাপে <em>একটা গল্প</em>" en="A story <em>in every cup</em>" /></h1>
-          <p><T bn="বাগান থেকে বেছে আনা ৮ রকমের চা। ১০০ গ্রাম থেকে ১ কেজি। ঘরে বসে অর্ডার, দরজায় পেমেন্ট।" en="8 hand-picked teas from the gardens. 100g to 1kg. Order from home, pay at your door." /></p>
-        </div>
+    <section class="hero glass" id="hero">
+      <div class="grain"></div>
+      <div class="hero-txt">
+        <div class="chips"><span class="chip"><T bn="ক্যাশ অন ডেলিভারি" en="Cash on Delivery" /></span><span class="chip">bKash</span><span class="chip">Nagad</span></div>
+        <h1><T html bn="প্রতি কাপে <em>একটা গল্প</em>" en="A story <em>in every cup</em>" /></h1>
+        <p><T bn="ঘরে বসে ৮ রকমের চা অর্ডার করুন। ১০০ গ্রাম থেকে ১ কেজি। পেমেন্ট দরজায়।" en="Order 8 kinds of tea from home. 100g to 1kg. Pay at your door." /></p>
         <div class="cta"><a class="btn amber" href="/shop/"><T bn="চা কিনুন" en="Shop teas" /></a><a class="btn white" href="/story/"><T bn="আমাদের গল্প" en="Our story" /></a></div>
-      </section>
-      <a class="tile solid glass" href="/product/1/" style="text-decoration:none"><h3><T bn="সিলেট প্রিমিয়াম" en="Sylhet Premium" /></h3><p>৳380 / 100g</p></a>
-      <div class="tile mist glass"><div class="big">8</div><p><T bn="রকমের চা" en="teas" /></p></div>
-      <div class="tile amber glass wide"><h3><T bn="চা বানানোর টিপ" en="Brewing tip" /></h3><p><T bn="গ্রিন টি ৮০°C পানিতে ২ মিনিট ভিজান।" en="Steep green tea at 80°C for 2 minutes." /></p></div>
+      </div>
+      <div class="stage" aria-hidden="true">
+        <div class="tilt"><div class="idle">
+          <canvas id="steam"></canvas>
+          <div class="cupwrap"><Cup size={340} /></div>
+          <div class="fl a"><Leaf size={74} rot={-24} /></div>
+          <div class="fl b"><Leaf size={54} rot={32} c1="#ffd98a" c2="#f2a93b" /></div>
+          <div class="fl c"><Leaf size={92} rot={14} c1="#bfe39a" c2="#6fae52" /></div>
+          <div class="fl d"><Leaf size={40} rot={-48} /></div>
+        </div></div>
+      </div>
+    </section>
+
+    <div class="bento">
+      <a class="tile solid glass" href="/product/1/" style="text-decoration:none"><h3><T bn={first.n.bn} en={first.n.en} /></h3><p>৳{price(first, 0)} / 100g</p></a>
+      <div class="tile mist glass"><div class="big">8</div><p><T bn="রকমের চা" en="kinds of tea" /></p></div>
       <div class="tile glass"><div class="big">COD</div><p><T bn="দরজায় পেমেন্ট" en="Pay at your door" /></p></div>
-      <div class="tile glass"><div class="big">4</div><p><T bn="ওজনের প্যাক" en="pack sizes" /></p></div>
+      <div class="tile glass"><div class="big">4</div><p><T bn="প্যাক: ১০০g থেকে ১kg" en="packs: 100g to 1kg" /></p></div>
     </div>
   </div>
 
   <section class="sec"><div class="wrap">
-    <div class="center"><div class="eyebrow"><T bn="জনপ্রিয়" en="Popular" /></div><h2><T bn="সবার প্রিয় চা" en="Customer favourites" /></h2><p class="sub"><T bn="যেগুলো সবচেয়ে বেশি অর্ডার হয়।" en="The teas people order most." /></p></div>
+    <div class="center"><div class="eyebrow"><T bn="আমাদের চা" en="Our teas" /></div><h2><T bn="পছন্দের চা বেছে নিন" en="Pick your tea" /></h2></div><br />
     <div class="grid">{feat.map((t) => <TeaCard t={t} />)}</div>
     <div class="center" style="margin-top:24px"><a class="btn line" href="/shop/"><T bn="সব চা দেখুন" en="View all teas" /></a></div>
   </div></section>
 
-  <section class="sec"><div class="wrap"><div class="storyblock">
-    <div class="txt"><div class="eyebrow" style="color:var(--amber)"><T bn="আমাদের গল্প" en="Our story" /></div>
-      <h2><T bn="এক কাপ চায়ের পেছনের গল্প" en="The story behind your cup" /></h2>
-      <p><T bn="আমাদের শুরু একটাই প্রশ্ন দিয়ে: ভালো চা কেন সহজে পাওয়া যায় না? বাগান থেকে সরাসরি পাতা বেছে, নিজেরা ব্লেন্ড করে, তাজা প্যাক করে আপনার কাছে পৌঁছাই।" en="We started with one question: why is good tea so hard to find? We pick leaf from the gardens, blend it ourselves and pack it fresh for you." /></p>
-      <a class="btn amber" href="/story/"><T bn="আরও পড়ুন" en="Read more" /></a></div>
-    <div class="art"><Cup size={190} /></div>
-  </div></div></section>
-
   <section class="sec"><div class="wrap">
-    <div class="center"><div class="eyebrow"><T bn="কেন আমরা" en="Why us" /></div><h2><T bn="চা, যেমন হওয়া উচিত" en="Tea, the way it should be" /></h2></div><br />
+    <div class="center"><div class="eyebrow"><T bn="সহজ কেনা" en="Simple buying" /></div><h2><T bn="চা কেনা হোক সহজ" en="Buying tea, made simple" /></h2></div><br />
     <div class="cards3">
-      <div class="feat glass"><i>🌱</i><h3><T bn="বাগান থেকে সরাসরি" en="Straight from the garden" /></h3><p><T bn="মধ্যস্বত্বভোগী কম, তাই দাম ঠিক আর পাতা তাজা।" en="Fewer middlemen: fair price, fresher leaf." /></p></div>
-      <div class="feat glass"><i>⚖️</i><h3><T bn="ওজনে কিনুন" en="Buy by weight" /></h3><p><T bn="১০০ গ্রাম থেকে ১ কেজি, যার যেমন দরকার।" en="100g to 1kg, whatever you need." /></p></div>
-      <div class="feat glass"><i>⚡</i><h3><T bn="সহজ অর্ডার" en="Easy ordering" /></h3><p><T bn="৬০ সেকেন্ডে অর্ডার, ফোন করে কনফার্ম।" en="Order in 60 seconds, we call to confirm." /></p></div>
+      <div class="feat glass"><span class="no">01</span><h3><T bn="ওজনে কিনুন" en="Buy by weight" /></h3><p><T bn="১০০g, ২৫০g, ৫০০g বা ১kg। যার যেমন দরকার।" en="100g, 250g, 500g or 1kg. Whatever you need." /></p></div>
+      <div class="feat glass"><span class="no">02</span><h3><T bn="নিজের মতো পেমেন্ট" en="Pay your way" /></h3><p><T bn="ক্যাশ অন ডেলিভারি, বিকাশ বা নগদ।" en="Cash on delivery, bKash or Nagad." /></p></div>
+      <div class="feat glass"><span class="no">03</span><h3><T bn="ফোনে কনফার্ম" en="Confirmed by phone" /></h3><p><T bn="অর্ডার দিন, আমরা ফোন করে নিশ্চিত করি।" en="Place your order, we call to confirm." /></p></div>
     </div>
   </div></section>
 
@@ -58,17 +62,9 @@ const feat = TEAS.filter((t) => [1, 4, 3, 6].includes(t.id));
     </div>
   </div></section>
 
-  <section class="sec"><div class="wrap">
-    <div class="center"><div class="eyebrow"><T bn="রিভিউ" en="Reviews" /></div><h2><T bn="ক্রেতারা কী বলছেন" en="What customers say" /></h2></div><br />
-    <div class="cards3">{REVIEWS.map((r) => (
-      <div class="quote glass"><div class="stars">★★★★★</div><p>“<T bn={r.t.bn} en={r.t.en} />”</p><b><T bn={r.n.bn} en={r.n.en} /></b> <small style="color:var(--muted)">· <T bn={r.c.bn} en={r.c.en} /></small></div>
-    ))}</div>
-    <p class="note center"><T bn="* নমুনা রিভিউ। আসল রিভিউ পরে যুক্ত হবে।" en="* Sample reviews. Real ones will be added later." /></p>
-  </div></section>
-
   <section class="sec"><div class="wrap"><div class="band">
     <h2><T bn="ফেসবুকে আমাদের সাথে থাকুন" en="Follow us on Facebook" /></h2>
-    <p style="margin:6px 0 16px"><T bn="নতুন চা, অফার আর গল্প সবার আগে পেতে।" en="New teas, offers and stories first." /></p>
-    <a class="fbbtn" href="#">f &nbsp;Facebook</a>
+    <p style="margin:6px 0 16px"><T bn="নতুন চা আর অফারের খবর পেতে।" en="For new teas and offers." /></p>
+    <a class="fbbtn" href="#">Facebook</a>
   </div></div></section>
 </Base>

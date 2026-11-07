@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import T from '../../components/T.astro';
 import TeaCard from '../../components/TeaCard.astro';
-import Leaf from '../../components/Leaf.astro';
+import TeaArt from '../../components/TeaArt.astro';
 import { TEAS, WEIGHTS, price, TYPE_LABEL } from '../../data/teas';
 export function getStaticPaths() {
   return TEAS.map((t) => ({ params: { id: String(t.id) }, props: { t } }));
@@ -14,11 +14,10 @@ const rel = TEAS.filter((x) => x.id !== t.id).slice(0, 4);
   <div class="wrap" data-pdp={t.id}>
     <div class="crumbs"><a href="/"><T bn="হোম" en="Home" /></a> / <a href="/shop/"><T bn="শপ" en="Shop" /></a> / <T bn={t.n.bn} en={t.n.en} /></div>
     <div class="pdp">
-      <div class="hero-img glass" style={`--c1:${t.c[0]};--c2:${t.c[1]}`}><Leaf color={t.c[0]} size={120} /></div>
+      <div class="hero-img glass"><TeaArt t={t} big /></div>
       <div>
         <h1><T bn={t.n.bn} en={t.n.en} /></h1>
         <div class="grade"><T bn={t.g.bn} en={t.g.en} /></div>
-        <div class="stars">{'★'.repeat(Math.round(t.r))}{'☆'.repeat(5 - Math.round(t.r))}<small>{t.r} ({t.rc})</small></div>
         <div class="pr" id="pdpPrice">৳{price(t, 1)}</div>
         <div class="meta"><span class="pill"><T bn={TYPE_LABEL[t.type].bn} en={TYPE_LABEL[t.type].en} /></span>{t.notes.bn.slice(0, 2).map((n, i) => <span class="pill b"><T bn={n} en={t.notes.en[i]} /></span>)}</div>
         <p style="margin-bottom:14px"><T bn={t.d.bn} en={t.d.en} /></p>
@@ -36,8 +35,8 @@ const rel = TEAS.filter((x) => x.id !== t.id).slice(0, 4);
       <li><b>{t.brew.m}</b> <T bn="মিনিট ভিজিয়ে রাখুন" en="minutes steep" /></li>
       <li><T bn="ছেঁকে পরিবেশন করুন" en="Strain and serve" /></li></ul></div>
     <div class="tabpane" data-pane="s"><ul>
-      <li><T bn="ঢাকার ভেতরে ১-২ দিন, বাইরে ২-৪ দিন।" en="Inside Dhaka 1-2 days, outside 2-4 days." /></li>
-      <li><T bn="ডেলিভারি চার্জ ৳60 (নমুনা)।" en="Delivery charge ৳60 (sample)." /></li>
+      <li><T bn="কনফার্মের সময় ফোনে ডেলিভারির সময় জানানো হবে।" en="We tell you the delivery time when we call to confirm." /></li>
+      <li><T bn="ডেলিভারি চার্জ ৳60।" en="Delivery charge ৳60." /></li>
       <li><T bn="প্যাক খুলে চেক করে টাকা দিতে পারবেন (COD)।" en="Open and check the pack before paying (COD)." /></li></ul></div>
   </div>
   <section class="sec"><div class="wrap"><h2><T bn="আরও চা" en="More teas" /></h2><div class="grid">{rel.map((x) => <TeaCard t={x} />)}</div></div></section>

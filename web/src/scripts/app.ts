@@ -1,4 +1,6 @@
 // Shared client code: language, cart, toast, badge, service worker.
+import './bg';
+import './fx';
 export type Item = { id: number; wi: number; q: number };
 type Tea = { id: number; base: number; n: { bn: string; en: string }; c: [string, string] };
 type Data = { teas: Tea[]; weights: { g: number; k: number; l: string }[]; delivery: number; api: string };
