@@ -1,5 +1,4 @@
 // Shared client code: language, cart, toast, badge, service worker.
-import './bg';
 import './fx';
 export type Item = { id: number; wi: number; q: number };
 type Tea = { id: number; base: number; n: { bn: string; en: string }; c: [string, string] };
@@ -29,14 +28,39 @@ export function totals(c = getCart()) {
   const del = c.length ? data.delivery : 0;
   return { sub, del, tot: sub + del };
 }
-export function addToCart(id: number, wi: number, q: number) {
+export function addToCart(id: number, wi: number, q: number, from?: HTMLElement) {
   const c = getCart();
   const e = c.find((i) => i.id === id && i.wi === wi);
   if (e) e.q = Math.min(50, e.q + q);
   else c.push({ id, wi, q });
   setCart(c);
   toast('added');
+  if (from) fly(from, tea(id).c);
 }
+/** A small tea pouch flies from the button to the cart icon. */
+export function fly(from: HTMLElement, c: [string, string]) {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const cb = document.querySelector<HTMLElement>('.cartbtn');
+  const target = cb && cb.offsetParent ? cb : document.querySelector<HTMLElement>('.tabs a[href="/cart/"]');
+  if (!target) return;
+  const a = from.getBoundingClientRect(), b = target.getBoundingClientRect();
+  const el = document.createElement('div');
+  el.className = 'fly';
+  el.style.background = `linear-gradient(160deg, ${c[1]}, ${c[0]})`;
+  const x0 = a.left + a.width / 2 - 15, y0 = a.top + a.height / 2 - 19;
+  el.style.left = x0 + 'px'; el.style.top = y0 + 'px';
+  document.body.appendChild(el);
+  const dx = b.left + b.width / 2 - 15 - x0, dy = b.top + b.height / 2 - 19 - y0;
+  el.animate([
+    { transform: 'translate(0,0) scale(1) rotate(0deg)', opacity: 1 },
+    { transform: `translate(${dx * 0.55}px, ${dy * 0.55 - 90}px) scale(.85) rotate(-14deg)`, opacity: 1, offset: 0.55 },
+    { transform: `translate(${dx}px, ${dy}px) scale(.25) rotate(10deg)`, opacity: 0.4 },
+  ], { duration: 700, easing: 'cubic-bezier(.5,0,.8,.6)' }).finished.then(() => {
+    el.remove();
+    target.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.18)' }, { transform: 'scale(1)' }], { duration: 320 });
+  }).catch(() => el.remove());
+}
+
 export function badge() {
   const n = getCart().reduce((a, i) => a + i.q, 0);
   document.querySelectorAll<HTMLElement>('[data-badge]').forEach((b) => {
@@ -49,6 +73,7 @@ const MSG: Record<string, { bn: string; en: string }> = {
   sent: { bn: 'বার্তা পাঠানো হয়েছে (ডেমো)', en: 'Message sent (demo)' },
   bad_phone: { bn: 'ফোন নম্বর ঠিক নয় (01XXXXXXXXX)', en: 'Phone number is not valid (01XXXXXXXXX)' },
   bad_trx: { bn: 'TrxID ও সেন্ডার নম্বর দিন', en: 'Enter TrxID and sender number' },
+  tea_ready: { bn: 'চা তৈরি! এবার পরিবেশন করুন', en: 'Your tea is ready!' },
   net: { bn: 'অর্ডার যায়নি, আবার চেষ্টা করুন', en: 'Order failed, please try again' },
 };
 export function lang() { return document.documentElement.lang === 'en' ? 'en' : 'bn'; }
@@ -76,7 +101,7 @@ document.getElementById('langBtn')?.addEventListener('click', () => {
 // quick add buttons on cards
 document.addEventListener('click', (e) => {
   const b = (e.target as HTMLElement).closest<HTMLElement>('[data-quick]');
-  if (b) { e.preventDefault(); addToCart(Number(b.dataset.quick), 1, 1); }
+  if (b) { e.preventDefault(); addToCart(Number(b.dataset.quick), 1, 1, b); }
 });
 badge();
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {

@@ -1,6 +1,10 @@
 ---
 // Procedural leaf-pile art per tea: layered two-tone leaves, soft shadows, vignette.
+import fs from 'node:fs';
+import path from 'node:path';
 const { t, big = false } = Astro.props;
+// Real photo: drop web/public/products/<id>.webp (or jpg/png). It replaces the drawn art.
+const ph = ['webp', 'jpg', 'jpeg', 'png'].map((e) => `products/${t.id}.${e}`).find((f) => fs.existsSync(path.join(process.cwd(), 'public', f)));
 const uid = `${big ? 'b' : 's'}${t.id}`;
 const hex = (h: string) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
 const mix = (a: string, b: string, k: number) => '#' + hex(a).map((v, i) => Math.round(v + (hex(b)[i] - v) * k).toString(16).padStart(2, '0')).join('');
@@ -11,7 +15,7 @@ const leaves = Array.from({ length: n }, () => ({ x: 40 + r() * 120, y: 36 + r()
 const bgIn = mix(t.c[0], t.c[1], 0.45), bgOut = mix(t.c[0], '#000000', 0.38);
 const lL = mix(t.c[1], '#ffffff', 0.6), lR = mix(t.c[1], '#ffffff', 0.22);
 ---
-<svg viewBox="0 0 200 160" preserveAspectRatio="xMidYMid slice" class={`art ${big ? 'big' : ''}`} aria-hidden="true">
+{ph ? <img class="art photo" src={`/${ph}`} alt={t.n.en} loading="lazy" decoding="async" /> : <svg viewBox="0 0 200 160" preserveAspectRatio="xMidYMid slice" class={`art ${big ? 'big' : ''}`} aria-hidden="true">
   <defs>
     <radialGradient id={`bg-${uid}`} cx="50%" cy="42%" r="78%"><stop offset="0" stop-color={bgIn} /><stop offset="1" stop-color={bgOut} /></radialGradient>
     <radialGradient id={`vg-${uid}`} cx="50%" cy="50%" r="70%"><stop offset=".55" stop-color="#000" stop-opacity="0" /><stop offset="1" stop-color="#000" stop-opacity=".28" /></radialGradient>
@@ -32,4 +36,4 @@ const lL = mix(t.c[1], '#ffffff', 0.6), lR = mix(t.c[1], '#ffffff', 0.22);
   ))}
   <rect width="200" height="160" fill={`url(#hl-${uid})`} />
   <rect width="200" height="160" fill={`url(#vg-${uid})`} />
-</svg>
+</svg>}

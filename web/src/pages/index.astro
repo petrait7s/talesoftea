@@ -5,7 +5,6 @@ import TeaCard from '../components/TeaCard.astro';
 import TeaGarden from '../components/TeaGarden.astro';
 import fs from 'node:fs';
 import path from 'node:path';
-import Leaf from '../components/Leaf.astro';
 import { TEAS, price } from '../data/teas';
 const feat = TEAS.filter((t) => [1, 4, 3, 6].includes(t.id));
 const first = TEAS[0];
@@ -38,13 +37,8 @@ const slides = photos.length ? photos.map((src) => ({ src, st: focus[src.split('
       {slides.length > 1 && <div class="hero-dots">{slides.map((_, i) => <button type="button" class={i === 0 ? 'on' : ''} data-slide={i} aria-label={`Slide ${i + 1}`}></button>)}</div>}
       <div class="hero-shade"></div>
       <div class="grain"></div>
-      <div class="leaves" aria-hidden="true">
-        <div class="fl a"><Leaf size={74} rot={-24} /></div>
-        <div class="fl b"><Leaf size={54} rot={32} c1="#ffd98a" c2="#f2a93b" /></div>
-        <div class="fl c"><Leaf size={92} rot={14} c1="#bfe39a" c2="#6fae52" /></div>
-        <div class="fl d"><Leaf size={40} rot={-48} /></div>
-      </div>
       <div class="hero-txt">
+        <a id="greet" class="greet" href="/shop/" hidden><i></i><span class="bn"></span><span class="en"></span></a>
         <div class="chips"><span class="chip"><T bn="ক্যাশ অন ডেলিভারি" en="Cash on Delivery" /></span><span class="chip">bKash</span><span class="chip">Nagad</span></div>
         <h1><T html bn="প্রতি কাপে <em>একটা গল্প</em>" en="A story <em>in every cup</em>" /></h1>
         <p><T bn="ঘরে বসে ৮ রকমের চা অর্ডার করুন। ১০০ গ্রাম থেকে ১ কেজি। পেমেন্ট দরজায়।" en="Order 8 kinds of tea from home. 100g to 1kg. Pay at your door." /></p>
@@ -85,3 +79,22 @@ const slides = photos.length ? photos.map((src) => ({ src, st: focus[src.split('
   </div></section>
 
 </Base>
+<script>
+  import { data } from '../scripts/app';
+  const h = new Date().getHours();
+  const slots = [
+    { a: 5, b: 11, g: ['সুপ্রভাত', 'Good morning'], id: 3 },
+    { a: 11, b: 15, g: ['শুভ দুপুর', 'Good afternoon'], id: 6 },
+    { a: 15, b: 18, g: ['বিকালের চা-র সময়', 'Tea time'], id: 4 },
+    { a: 18, b: 22, g: ['শুভ সন্ধ্যা', 'Good evening'], id: 1 },
+  ];
+  const s = slots.find((x) => h >= x.a && h < x.b) || { g: ['শুভ রাত্রি', 'Good night'], id: 7 };
+  const t = data.teas.find((x) => x.id === s.id);
+  const el = document.getElementById('greet') as HTMLAnchorElement | null;
+  if (el && t) {
+    el.href = `/product/${t.id}/`;
+    el.querySelector('.bn')!.textContent = `${s.g[0]} · ${t.n.bn} চেখে দেখুন`;
+    el.querySelector('.en')!.textContent = `${s.g[1]} · try ${t.n.en}`;
+    el.hidden = false;
+  }
+</script>

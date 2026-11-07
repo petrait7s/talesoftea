@@ -3,18 +3,20 @@ import Base from '../../layouts/Base.astro';
 import T from '../../components/T.astro';
 import TeaCard from '../../components/TeaCard.astro';
 import TeaArt from '../../components/TeaArt.astro';
+import Pack from '../../components/Pack.astro';
 import { TEAS, WEIGHTS, price, TYPE_LABEL } from '../../data/teas';
 export function getStaticPaths() {
   return TEAS.map((t) => ({ params: { id: String(t.id) }, props: { t } }));
 }
 const { t } = Astro.props;
+const mins = parseInt(String(t.brew.m), 10) || 3;
 const rel = TEAS.filter((x) => x.id !== t.id).slice(0, 4);
 ---
 <Base title={`${t.n.en} | Tales of Tea`} active="shop" description={t.d.en}>
   <div class="zone"><div class="wrap" data-pdp={t.id}>
     <div class="crumbs"><a href="/"><T bn="হোম" en="Home" /></a> / <a href="/shop/"><T bn="শপ" en="Shop" /></a> / <T bn={t.n.bn} en={t.n.en} /></div>
     <div class="pdp">
-      <div class="hero-img glass"><TeaArt t={t} big /></div>
+      <div class="hero-img glass"><TeaArt t={t} big /><Pack t={t} /></div>
       <div>
         <h1><T bn={t.n.bn} en={t.n.en} /></h1>
         <div class="grade"><T bn={t.g.bn} en={t.g.en} /></div>
@@ -25,6 +27,17 @@ const rel = TEAS.filter((x) => x.id !== t.id).slice(0, 4);
         <div class="weights" id="wts">{WEIGHTS.map((w, i) => <button type="button" data-w={i} class={i === 1 ? 'on' : ''}><b>{w.l}</b><small>৳{price(t, i)}</small></button>)}</div>
         <div class="qrow"><b><T bn="পরিমাণ" en="Quantity" /></b><div class="qty"><button type="button" id="qm" aria-label="-">-</button><b id="qv">1</b><button type="button" id="qp" aria-label="+">+</button></div></div>
         <div class="acts"><button class="btn green" type="button" id="addBtn"><T bn="কার্টে দিন" en="Add to cart" /></button><button class="btn amber" type="button" id="buyBtn"><T bn="এখনই কিনুন" en="Buy now" /></button></div>
+        <div class="timer glass" id="timer" data-min={mins} data-s="idle">
+          <div class="tm-lbl"><T bn="বানানোর টাইমার" en="Brew timer" /> · {mins} <T bn="মিনিট" en="min" /> · {t.brew.t}</div>
+          <div class="tm-row">
+            <div class="tm-time" id="tmTime">{String(mins).padStart(2, '0')}:00</div>
+            <div class="tm-btns">
+              <button class="btn green sm" type="button" id="tmGo"><span class="s-go"><T bn="শুরু" en="Start" /></span><span class="s-pause"><T bn="থামান" en="Pause" /></span></button>
+              <button class="btn line sm" type="button" id="tmReset"><T bn="রিসেট" en="Reset" /></button>
+            </div>
+          </div>
+          <div class="tm-bar"><i id="tmFill"></i></div>
+        </div>
       </div>
     </div>
   </div></div>
@@ -45,7 +58,7 @@ const rel = TEAS.filter((x) => x.id !== t.id).slice(0, 4);
   <div class="buybar glass"><span class="p" id="bbP">৳{price(t, 1)}</span><button class="btn green" type="button" id="addBtn2"><T bn="কার্টে দিন" en="Add to cart" /></button></div>
 </Base>
 <script>
-  import { addToCart, price, tk } from '../../scripts/app';
+  import { addToCart, price, tk, toast } from '../../scripts/app';
   const id = Number((document.querySelector('[data-pdp]') as HTMLElement).dataset.pdp);
   let wi = 1, q = 1;
   const upd = () => {
@@ -54,16 +67,47 @@ const rel = TEAS.filter((x) => x.id !== t.id).slice(0, 4);
     document.getElementById('bbP')!.textContent = p;
     document.getElementById('qv')!.textContent = String(q);
     document.querySelectorAll<HTMLElement>('#wts button').forEach((b) => b.classList.toggle('on', Number(b.dataset.w) === wi));
+    const pack = document.getElementById('pack');
+    if (pack) { pack.style.setProperty('--ps', String([0.5, 0.68, 0.84, 1][wi])); document.getElementById('packW')!.textContent = ['100g', '250g', '500g', '1kg'][wi]; }
   };
   document.querySelectorAll<HTMLElement>('#wts button').forEach((b) => b.addEventListener('click', () => { wi = Number(b.dataset.w); upd(); }));
   document.getElementById('qm')!.addEventListener('click', () => { q = Math.max(1, q - 1); upd(); });
   document.getElementById('qp')!.addEventListener('click', () => { q = Math.min(20, q + 1); upd(); });
-  const add = () => addToCart(id, wi, q);
-  document.getElementById('addBtn')!.addEventListener('click', add);
-  document.getElementById('addBtn2')!.addEventListener('click', add);
+  const add = (from?: HTMLElement) => addToCart(id, wi, q, from);
+  document.getElementById('addBtn')!.addEventListener('click', (e) => add(e.currentTarget as HTMLElement));
+  document.getElementById('addBtn2')!.addEventListener('click', (e) => add(e.currentTarget as HTMLElement));
   document.getElementById('buyBtn')!.addEventListener('click', () => { add(); location.href = '/cart/'; });
+  upd();
   document.querySelectorAll<HTMLElement>('[data-tab]').forEach((b) => b.addEventListener('click', () => {
     document.querySelectorAll('[data-tab]').forEach((x) => x.classList.toggle('on', x === b));
     document.querySelectorAll<HTMLElement>('[data-pane]').forEach((p) => p.classList.toggle('on', p.dataset.pane === b.dataset.tab));
   }));
+
+  // Brew timer: counts down, beeps and vibrates at zero.
+  const tm = document.getElementById('timer') as HTMLElement;
+  const total = Number(tm.dataset.min) * 60;
+  let left = total, end = 0, tick = 0;
+  const fmt = (n: number) => String(Math.floor(n / 60)).padStart(2, '0') + ':' + String(n % 60).padStart(2, '0');
+  const draw = () => {
+    document.getElementById('tmTime')!.textContent = fmt(Math.max(0, Math.ceil(left)));
+    (document.getElementById('tmFill') as HTMLElement).style.width = ((1 - left / total) * 100).toFixed(1) + '%';
+  };
+  const beep = () => {
+    try {
+      const ac = new (window.AudioContext || (window as any).webkitAudioContext)();
+      [0, 0.35, 0.7].forEach((d) => { const o = ac.createOscillator(), g = ac.createGain(); o.frequency.value = 880; g.gain.value = 0.15; o.connect(g); g.connect(ac.destination); o.start(ac.currentTime + d); o.stop(ac.currentTime + d + 0.2); });
+    } catch {}
+    navigator.vibrate?.([250, 120, 250]);
+  };
+  const stop = () => { clearInterval(tick); tm.dataset.s = left <= 0 ? 'done' : 'idle'; };
+  document.getElementById('tmGo')!.addEventListener('click', () => {
+    if (tm.dataset.s === 'run') { left = (end - Date.now()) / 1000; stop(); return; }
+    if (left <= 0) left = total;
+    end = Date.now() + left * 1000; tm.dataset.s = 'run';
+    tick = window.setInterval(() => {
+      left = (end - Date.now()) / 1000; draw();
+      if (left <= 0) { left = 0; draw(); stop(); beep(); toast('tea_ready'); }
+    }, 250);
+  });
+  document.getElementById('tmReset')!.addEventListener('click', () => { clearInterval(tick); left = total; tm.dataset.s = 'idle'; draw(); });
 </script>

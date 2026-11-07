@@ -7,6 +7,7 @@ mobile-first, Cash on Delivery or bKash/Nagad. Plan: `docs/TalesOfTea_Build_Plan
 ## Layout
 - `web/`  Astro (static build) for the public site. Domain: `domain.com`.
 - `app/`  Laravel + Livewire (PHP 8.1+) for admin, POS, ledger and the order API. `admin.domain.com`. (Not started yet.)
+- Photos: hero slideshow in `web/public/hero/` (any names, A-Z), product photos at `web/public/products/<tea id>.webp` (replace the drawn art).
 - `preview/`  Static design mock-ups. Reference only, not shipped.
 - `docs/`  Plan and specs.
 
